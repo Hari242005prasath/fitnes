@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Fitness Plan Generator</title>
+    <style>
+        body {
+            background-color: #1e1e1e;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+        }
+        .form-section, .result-section {
+            flex: 1;
+            padding: 20px;
+            background: #2b2b2b;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        input, select, label {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border: none;
+            background: #333;
+            color: white;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <h2 style="text-align: center;">🏋 AI-Generated Fitness Plan</h2>
+    <div class="container">
+        <div class="form-section">
+            <form id="fitnessForm" method="POST">
+                {% csrf_token %}
+                <input type="text" name="duration" placeholder="Duration (e.g., '4 weeks')" required>
+                <input type="text" name="goal" placeholder="Goal (e.g., 'Weight Loss')" required>
+                <select name="fitness_level">
+                    <option value="Beginner">Beginner</option>
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Advanced">Advanced</option>
+                </select>
+                <input type="number" name="age" placeholder="Age" required>
+                <select name="gender">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+                <input type="number" name="weight" placeholder="Weight (kg)" required>
+                <input type="number" name="height" placeholder="Height (cm)" required>
+                <select name="activity_level">
+                    <option value="Sedentary">Sedentary</option>
+                    <option value="Lightly Active">Lightly Active</option>
+                    <option value="Moderately Active">Moderately Active</option>
+                    <option value="Very Active">Very Active</option>
+                </select>
+                <select name="diet_preference">
+                    <option value="None">None</option>
+                    <option value="Vegan">Vegan</option>
+                    <option value="Vegetarian">Vegetarian</option>
+                    <option value="Keto">Keto</option>
+                    <option value="Low Carb">Low Carb</option>
+                </select>
+                <label>Select Equipment:</label>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="equipment" value="Dumbbells"> Dumbbells</label>
+                    <label><input type="checkbox" name="equipment" value="Resistance Bands"> Resistance Bands</label>
+                    <label><input type="checkbox" name="equipment" value="Treadmill"> Treadmill</label>
+                    <label><input type="checkbox" name="equipment" value="Yoga Mat"> Yoga Mat</label>
+                </div>
+                <button type="submit">Generate Plan</button>
+            </form>
+        </div>
+        <div class="result-section">
+            <h3>Generated Plan:</h3>
+            <div id="result">Your plan will appear here.</div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("fitnessForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            let formData = new FormData(this);
+
+            fetch("/generate_fitness_plan/", {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "X-CSRFToken": document.querySelector("[name=csrfmiddlewaretoken]").value
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("result").innerHTML = data.plan 
+                    ? `<p>${data.plan.replace(/\n/g, "<br>")}</p>` 
+                    : "<p>Error generating plan.</p>";
+            })
+            .catch(error => console.error("Error:", error));
+        });
+    </script>
+</body>
+</html>

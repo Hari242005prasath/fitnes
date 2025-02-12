@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fitnezz</title>
+  
+  <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+  <link rel="icon" type="image/png" sizes="48x48" href="{% static 'images/fitnezz_favicon.png' %}">
+  <link rel="icon" type="image/png" sizes="96x96" href="{% static 'images/fitnezz_favicon.png' %}">
+  <link rel="icon" type="image/png" sizes="144x144" href="{% static 'images/fitnezz_favicon.png' %}">
+  <link rel="icon" type="image/png" sizes="192x192" href="{% static 'images/fitnezz_favicon.png' %}">
+  <link rel="icon" type="image/png" sizes="256x256" href="{% static 'images/fitnezz_favicon.png' %}">
+  <link rel="icon" type="image/png" sizes="384x384" href="{% static 'images/fitnezz_favicon.png' %}">
+  <link rel="icon" type="image/png" sizes="512x512" href="{% static 'images/fitnezz_favicon.png' %}">
+  <link rel="stylesheet" href="{% static 'home.css' %}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <script src="https://kit.fontawesome.com/b70d731558.js" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <script src="https://use.fontawesome.com/d416e09bd8.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+
+<body onload="myfunction()">
+  <div id="load"></div>
+  
+  <i class="fa fa-arrow-circle-up" aria-hidden="true" id="upbtn"></i>
+  
+  <header class="header">
+    <a href="{% url 'index' %}" style="text-decoration:none; color: inherit;">
+      <div class="logo"><i class="fa-solid fa-dumbbell"></i> Fitne<span style="color: purple">zz</span></div>
+    </a>
+    <a href="#" class="toggle-button">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </a>
+    <div class="navbar">
+      <ul>
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+        <li><a href="#">News</a></li>
+        <li><a href="{% url 'contact' %}">Contact</a></li>
+      </ul>
+    </div>
+
+    <a href="#registration">
+      <div class="button">
+        <button class="btn2 grow">Become a member</button>
+      </div>
+    </a>
+  </header>
+  
+  <div class="body">
+    <div class="banner">
+      <div class="head">
+        Health is Wealth
+      </div>
+      <div data-aos="fade-left" class="topic">
+        One of the most valuable possessions in human life is health. With good health, one can achieve anything in
+        life. In order to perform effectively, one has to be in sound health.
+      </div>
+      <div>
+        <a href="{% url 'joinin' %}" class="butns_link"><button class="butns">Analysis <i class="fa-solid fa-chevron-right"></i></button></a><br>
+        <a href="{% url 'newSchedule' %}" class="butns_link"><button class="butns">New Schedule<i class="fa-solid fa-chevron-right"></i></button></a><br>
+        <a href="{% url 'ourSchedule' %}" class="butns_link"><button class="butns">Our Schedule <i class="fa-solid fa-chevron-right"></i></button></a><br>
+        <a href="{% url 'streak' %}" class="butns_link"><button class="butns">Streak<i class="fa-solid fa-chevron-right"></i></button></a>
+      </div>
+    </div>
+  </div>
+
+  <div id="pricing">
+    <div class="toppricing">
+      <h1 data-aos="fade-right" data-aos-duration="800">Pricing</h1>
+    </div>
+    <section class="pricing">
+      <div class="wrapper" data-aos="zoom-in" data-aos-duration="800">
+        <input type="radio" name="slider" id="tab-1">
+        <input type="radio" name="slider" id="tab-2" checked>
+        <input type="radio" name="slider" id="tab-3">
+        <header>
+          <label for="tab-1" class="tab1">Standard</label>
+          <label for="tab-2" class="tab2">Popular</label>
+          <label for="tab-3" class="tab3">Golden</label>
+          <div class="slider"></div>
+        </header>
+        <div class="cards-area">
+          <div class="price-card">
+            <div class="row row-1">
+              <div class="pricing-details">
+                <span>19</span>
+                <p>Standard Plan</p>
+              </div>
+              <ul class="features">
+                <li><i class="fa fa-check"></i><span>Beginner Classes</span></li>
+                <li><i class="fa fa-times"></i><span>Training Overview</span></li>
+                <li><i class="fa fa-times"></i><span>Personal Training</span></li>
+                <li><i class="fa fa-times"></i><span>Olympic Weightlifting</span></li>
+              </ul>
+            </div>
+            <div class="row">
+              <div class="pricing-details">
+                <span>25</span>
+                <p>Most Popular Plan</p>
+              </div>
+              <ul class="features">
+                <li><i class="fa fa-check"></i><span>Beginner Classes</span></li>
+                <li><i class="fa fa-check"></i><span>Training Overview</span></li>
+                <li><i class="fa fa-times"></i><span>Olympic Weightlifting</span></li>
+                <li><i class="fa fa-times"></i><span>Personal Training</span></li>
+              </ul>
+            </div>
+            <div class="row">
+              <div class="pricing-details">
+                <span>35</span>
+                <p>The Golden Plan</p>
+              </div>
+              <ul class="features">
+                <li><i class="fa fa-check"></i><span>Beginner Classes</span></li>
+                <li><i class="fa fa-check"></i><span>Training Overview</span></li>
+                <li><i class="fa fa-check"></i><span>Personal Training</span></li>
+                <li><i class="fa fa-check"></i><span>Olympic Weightlifting</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <button>Choose plan</button>
+      </div>
+    </section>
+  </div>
+
+  <section class="faq">
+    <div class="faq_heading">
+      <h1>Frequently Asked Questions</h1>
+    </div>
+    <div class="wrap">
+      <ul class="accordion">
+        <li class="accordion__item">
+          <a class="accordion__title" href="javascript:void(0)"> What is the best routine for the gym?
+            <div class="bmenu x7"><span class="btop"></span><span class="bmid"></span><span class="bbot"></span></div>
+          </a>
+          <p class="accordion__content">The best routine for the gym is the one that is flexible with your schedule and
+            you
+            actually enjoy. These two factors will contribute greatly to your ability to be consistent with your
+            workouts. Consistency with your workouts and progressing as you perform them finally leads to results.
+            <br>
+            That being said, there are plenty of great workout program styles one can do to build muscle, lose fat, or
+            build strength. The body composition goals (building muscle and losing fat) will be accomplished through
+            similar style workouts combined with differing nutritional principles, while those looking for strength
+            gains may need to focus on programs that are centered on the idea of specificity.
+          </p>
+        </li>
+        <li class="accordion__item">
+          <a class="accordion__title" href="javascript:void(0)">How long in a week to devote for each body part workout?
+            <div class="bmenu x7"><span class="btop"></span><span class="bmid"></span><span class="bbot"></span></div>
+          </a>
+          <p class="accordion__content">The answer to this question would assume that the person asking is referring to
+            body part splits. In this case, the way you split your days likely won’t matter too much, as long as you
+            work every body part throughout the week.<br>
+            There may be some benefit into ensuring you don’t hit chest and shoulders or legs and back on consecutive
+            days, but if you do, it probably won’t be that big of an issue depending on your overall strength levels.
+          </p>
+        </li>
+        <li class="accordion__item">
+          <a class="accordion__title" href="javascript:void(0)">What should a beginner do at the gym?
+            <div class="bmenu x7"><span class="btop"></span><span class="bmid"></span><span class="bbot"></span></div>
+          </a>
+          <p class="accordion__content">The best thing a beginner can do at the gym is seek out the help of a trained
+            professional to assist them with learning the proper form of each exercise. Practicing the basics and
+            establishing a solid foundation in terms of form will help a beginner lifter remain injury free throughout
+            their life.<br>
+            If you are not in the position to hire a trained professional, you may want to proceed working out with some
+            level of caution. The same recommendation of practicing the fundamentals still applies. Start off with light
+            weight (the bar on barbell exercises) and record yourself performing exercises.</p>
+        </li>
+        <li class="accordion__item">
+          <a class="accordion__title" href="javascript:void(0)">What is the best workout routine for beginners?
+            <div class="bmenu x7"><span class="btop"></span><span class="bmid"></span><span class="bbot"></span></div>
+          </a>
+          <p class="accordion__content">
+            The best workout routine for true beginners is rather subjective to what the beginner is comfortable doing
+            and their understanding of how to perform exercises.
+            <br>
+            Their ultimate goal will also play a huge factor as well.
+            <br>
+            Generally speaking though, beginners can start off performing anywhere between 2-4 workouts per week. These
+            workouts can be either full body workouts or upper/lower workouts.
+          </p>
+        </li>
+        <li class="accordion__item">
+          <a class="accordion__title" href="javascript:void(0)">What is the best workout schedule to build muscle?
+            <div class="bmenu x7"><span class="btop"></span><span class="bmid"></span><span class="bbot"></span></div>
+          </a>
+          <p class="accordion__content">The best workout schedule to build muscle is a workout schedule that you enjoy
+            and even can be consistent with.
+            In addition to consistency, it would be beneficial to have a higher training frequency if the goal is to
+            build lean muscle mass. You may want to hit each muscle group either directly or indirectly 2-3 times weekly
+            to maximize muscle growth.
+            <br>
+            Some great splits to look into would be full body workouts, upper/lower workouts, push/pull workouts and
+            push/pull/legs workouts.
+          </p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section style="margin-top: 0px; padding-top:20px;" id="registration">
+    <div class="signup" data-aos="fade-left" data-aos-duration="800">
+      <div class="signup-connect">
+        <h2 style="color: white;">Register your account</h2>
+        <div class="social-button">
+          <a href="#" class="btn btn-social btn-facebook" style="width: 100%;"><i class="fa fa-facebook"></i> Sign in with Facebook</a>
+          <a href="#" class="btn btn-social btn-twitter" style="width: 100%;"><i class="fa fa-twitter"></i> Sign in with Twitter</a>
+          <a href="#" class="btn btn-social btn-google" style="width: 100%;"><i class="fa fa-google"></i> Sign in with Google</a>
+          <a href="#" class="btn btn-social btn-linkedin" style="width: 100%;"><i class="fa fa-linkedin"></i> Sign in with Linkedin</a>
+        </div>
+      </div>
+      <div class="signup-classic">
+        <h2 style="margin-bottom:20px">Or use the classical way</h2>
+        <form class="form">
+          <fieldset class="username">
+            <input type="text" placeholder="username" />
+          </fieldset>
+          <fieldset class="email">
+            <input type="email" placeholder="email" />
+          </fieldset>
+          <fieldset class="password">
+            <input type="password" placeholder="password" />
+          </fieldset>
+          <button type="submit" class="btn">Register</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container-footer">
+      <div class="row">
+        <div class="footer-col one">
+          <img src="{% static 'images/logo.png' %}" alt="Logo" style="item-margin:200px left">
+          <strong><p style="text-align:left ;"> We take care of your fitness</p></strong>
+          <div class="socials" style="padding-bottom:10px;">
+            <a href="#"><i class="fb fa fa-facebook-f"></i></a>
+            <a href="#"><i class="twit fa fa-twitter"></i></a>
+            <a href="#"><i class="fa fa-instagram"></i></a>
+            <a href="#"><i class="linkd fa fa-linkedin"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-col schedule">
+          <h4 class="timing" style="text-align:left ;"><i class="fa-solid fa-calendar-days"></i> mon - wed</h4>
+          <p style="text-align:left ;"><span class="num">8</span>AM - <span class="num">4</span>PM</p>
+          <br>
+          <h4 class="timing" style="text-align:left ;"><i class="fa-solid fa-calendar-days"></i> thu - sat</h4>
+          <p style="text-align:left ;"><span class="num">10</span>AM - <span class="num">6</span>PM</p>
+        </div>
+        <div class="footer-col">
+          <strong><h4>About Us</h4></strong>
+          <ul>
+            <li style="text-align:left ;"><a href="#">our program</a><hr noshade="noshade"/></li>
+            <li style="text-align:left ;"><a href="#">our legacy</a><hr noshade="noshade"/></li>
+            <li style="text-align:left ;"><a href="#">our story</a><hr noshade="noshade"/></li>
+            <li style="text-align:left ;"><a href="#">our club</a><hr noshade="noshade"/></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <strong><h4 style="text-align:left ;">Your Fitness</h4></strong>
+          <ul>
+            <li style="text-align:left ;"><a href="#">why choose us?</a><hr noshade="noshade"/></li>
+            <li style="text-align:left ;"><a href="#">testimonials</a><hr noshade="noshade"/></li>
+            <li style="text-align:left ;"><a href="#">workout tips</a><hr noshade="noshade"/></li>
+            <li style="text-align:left ;"><a href="#">activities</a><hr noshade="noshade"/></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <strong><h4 style="text-align:left ;">More</h4></strong>
+          <ul>
+            <li style="text-align:left ;"><a href="#">accessibility</a><hr noshade="noshade"/></li>
+            <li style="text-align:left ;"><a href="#">find a gym</a><hr noshade="noshade"/></li>
+            <li style="text-align:left ;"><a href="#">news</a><hr noshade="noshade"/></li>
+            <li style="text-align:left ;"><a href="#">shop</a><hr noshade="noshade"/></li>
+          </ul>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>Copyright &copy; <span><a href="https://github.com/Subhradeep10/Fitnezz" target="_blank"> Fitnezz</a></span> | All Rights Reserved</p>
+      </div>
+    </div>
+  </footer>
+  
+  <script>
+    var preloader = document.getElementById('load');
+    const upBtn = document.getElementById('upbtn')
+
+    function myfunction(){
+        preloader.style.display='none';
+    }
+    
+    upBtn.addEventListener('click',() => {
+      $('html,body').animate({scrollTop: 0}, 500);
+    })
+  </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="{% static 'script.js' %}"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
+  </script>
+</body>
+
+</html>
