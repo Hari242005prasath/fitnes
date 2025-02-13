@@ -14,6 +14,10 @@ urlpatterns = [
     path('Our-schedule/', views.ourSchedule, name='ourSchedule'),
     path('streal/', views.streak, name='streak'),
     path('',views.login_view,name='login'),
+    path("save_fitness_plan/", views.save_fitness_plan, name="save_fitness_plan"),
+    path("fitness_plan/", views.display_fitness_plan, name="ourOldschedule"),
+
+
 
 
 

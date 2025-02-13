@@ -11,3 +11,6 @@ class Streak(models.Model):
 class userDetails(models.Model):
     user=models.CharField(max_length=50)
     password=models.CharField(max_length=50)
+
+class Gptinfo(models.Model):
+    text=models.TextField(max_length=10000)

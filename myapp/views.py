@@ -111,3 +111,31 @@ def login_view(request):
             messages.error(request, "Invalid username or password")
 
     return render(request, "myapp/login.html")
+
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+from .models import Gptinfo
+
+@csrf_exempt
+def save_fitness_plan(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            fitness_plan = data.get("fitness_plan", "")
+
+            if fitness_plan:
+                Gptinfo.objects.create(text=fitness_plan)
+                return JsonResponse({"message": "Schedule saved successfully!"}, status=201)
+            else:
+                return JsonResponse({"error": "No fitness plan provided"}, status=400)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+    return JsonResponse({"error": "Invalid request"}, status=400)
+
+
+def display_fitness_plan(request):
+    """Fetch the latest saved fitness plan and display it in another page"""
+    latest_plan = Gptinfo.objects.last()  # Get the latest saved plan
+    return render(request, "myapp/ourOldschedule.html", {"fitness_plan": latest_plan.text if latest_plan else "No schedule found!"})
