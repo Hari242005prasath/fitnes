@@ -2,6 +2,7 @@ import json
 import google.generativeai as genai
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from .models import userDetails
 
 # Configure Google AI
 GOOGLE_API_KEY = "AIzaSyCZ62IZsy-jNJYiBSdyGwMCg6pe_ly6Q94"
@@ -89,3 +90,24 @@ def ourSchedule(request):
 
 def streak(request):
     return render(request,'myapp/streak.html')
+
+
+
+
+from django.shortcuts import render, redirect
+from django.contrib import messages
+
+def login_view(request):
+    if request.method == "POST":
+        username = request.POST.get("username")  # Form field name
+        password = request.POST.get("password")
+
+        try:
+            user = userDetails.objects.get(user=username, password=password)  # Use 'user' instead of 'username'
+            request.session["user_id"] = user.id  # Store user session
+            messages.success(request, "Login successful!")
+            return redirect("home")  # Redirect to home page
+        except userDetails.DoesNotExist:
+            messages.error(request, "Invalid username or password")
+
+    return render(request, "myapp/login.html")

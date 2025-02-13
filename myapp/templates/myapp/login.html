@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    {% load static %}
+    <style>
+        /* Reset default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Full-screen background image */
+        body {
+            background: url('{% static "images/login_img.jpg" %}') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+        }
+
+        /* Login container */
+        .login-box {
+            text-align: center;
+            width: 350px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+        /* Form heading */
+        .login-box h2 {
+            font-size: 22px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .login-box p {
+            font-size: 14px;
+            color: #eee;
+            margin-bottom: 20px;
+        }
+
+        /* Input fields */
+        .input-group {
+            text-align: left;
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            font-size: 14px;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            color: white;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid white;
+            border-radius: 5px;
+            color: white;
+            outline: none;
+        }
+
+        .input-group input::placeholder {
+            color: #ddd;
+        }
+
+        /* Remember Me & Forgot Password */
+        .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .options input {
+            margin-right: 5px;
+        }
+
+        .options a {
+            text-decoration: none;
+            color: #ffc107;
+        }
+
+        .options a:hover {
+            text-decoration: underline;
+        }
+
+        /* Login button */
+        .login-btn {
+            width: 100%;
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .login-btn:hover {
+            background: #0056b3;
+        }
+
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 15px 0;
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid #ccc;
+            margin: 5px;
+        }
+
+        /* Social login buttons */
+        .social-login {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .social-login button {
+            width: 48%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .twitter {
+            background: #1da1f2;
+        }
+
+        .facebook {
+            background: #3b5998;
+        }
+
+        .twitter:hover {
+            background: #0d8bd9;
+        }
+
+        .facebook:hover {
+            background: #2e437a;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-box">
+        <h2>Welcome Back</h2>
+        <p>Please enter your credentials to continue</p>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="input-group">
+                <label>Username</label>
+                <input type="text" name="username" placeholder="Enter your username">
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Enter your password">
+            </div>
+
+            <div class="options">
+                <label><input type="checkbox" name="remember"> Remember Me</label>
+                <a href="#">Forgot Password?</a>
+            </div>
+
+            <button type="submit" class="login-btn">Login</button>
+
+            <div class="divider">Or Login With</div>
+
+            <div class="social-login">
+                <button class="twitter">Twitter</button>
+                <button class="facebook">Facebook</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>
