@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 Problem Description
 Many individuals struggle to create personalized and effective fitness plans due to a lack of expertise, time, and access to professional guidance. A generic workout or diet plan may not cater to individual needs, goals, or fitness levels, leading to ineffective results or even injuries.
 
@@ -54,3 +55,62 @@ If they miss a day, the streak resets (or reduces based on predefined rules).
 ✅ Streak Rewards: Unlock badges, achievements, or incentives for maintaining long streaks.
 ✅ Progress Tracking: Show a visual streak tracker on the UI.
 ✅ Reminder System: Send notifications or prompts if a streak is about to break.
+=======
+Problem Description
+Many individuals struggle to create personalized and effective fitness plans due to a lack of expertise, time, and access to professional guidance. A generic workout or diet plan may not cater to individual needs, goals, or fitness levels, leading to ineffective results or even injuries.
+
+The Fitness Planner solves this problem by generating AI-powered personalized fitness plans based on user inputs such as age, weight, fitness level, activity level, available equipment, and goals (e.g., weight loss, muscle gain). The generated plan provides structured workouts, active rest days, and nutritional recommendations tailored to the user’s profile.
+
+Key Features
+User Input Form
+
+Users provide details like age, weight, height, gender, activity level, fitness goal, and available equipment.
+AI-Generated Personalized Plan
+
+Generates a structured week-wise fitness plan based on user preferences and fitness level.
+Includes cardio, strength training, flexibility exercises, and rest days.
+Dynamic Adjustments
+
+Adjusts workout intensity and duration week by week for progressive overload.
+Suggests increasing repetitions, duration, or resistance for better results.
+Diet & Nutrition Recommendations
+
+Provides nutrition tips based on fitness goals (e.g., weight loss, muscle gain).
+Emphasizes a balanced diet with protein, whole grains, and vegetables.
+User-Friendly Interface
+
+Built using Gradio, allowing seamless user interaction.
+Clean dark-themed UI for an engaging experience.
+Equipment Selection
+
+Users can specify available gym/home equipment (e.g., dumbbells, treadmill, resistance bands).
+Ensures the plan is adaptable to home workouts or gym access.
+Rest & Recovery Guidance
+
+Recommends active rest (e.g., yoga, hiking) and dedicated rest days.
+Stresses the importance of listening to the body and avoiding overtraining.
+Advantages
+✔ Personalized & Adaptive: Tailored to individual fitness levels and preferences.
+✔ Beginner-Friendly: Helps users with little experience follow a structured plan.
+✔ Progressive Training: Gradually increases intensity for consistent improvement.
+✔ Flexible & Convenient: Works for home and gym workouts with available equipment.
+✔ Integrated Diet Advice: Supports fitness goals with proper nutrition guidance.
+✔ Accessible & Easy to Use: Simple interface for quick fitness plan generation.
+
+
+New Feature: Streak Maintenance
+🔹 How It Works:
+
+Every day a user completes their workout, the streak increases.
+If they miss a day, the streak resets (or reduces based on predefined rules).
+🔹 Benefits:
+✔ Boosts Motivation: Encourages users to stay consistent.
+✔ Accountability: Users feel responsible for maintaining progress.
+✔ Gamification: Adds a fun element, making workouts more engaging.
+
+🔹 Additional Enhancements:
+✅ Streak Rewards: Unlock badges, achievements, or incentives for maintaining long streaks.
+✅ Progress Tracking: Show a visual streak tracker on the UI.
+✅ Reminder System: Send notifications or prompts if a streak is about to break.
+>>>>>>> 0772981ad7375937349a98dbf82131c72dda10a0
+>>>>>>> Stashed changes
