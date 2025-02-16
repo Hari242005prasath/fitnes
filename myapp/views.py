@@ -28,18 +28,20 @@ def generate_fitness_plan(request):
             prompt = (
                 f"Create a {duration} fitness plan for a {age}-year-old {gender} with a weight of {weight} kg and height of {height} cm. "
                 f"The fitness level is {fitness_level}, and their primary goal is {goal}. They follow a {diet_preference} diet and have an "
-                f"activity level of {activity_level}. Provide a structured day-by-day plan with clear headings (e.g., 'Week 1, Day 1 - Date, Time'). "
-                f"The plan should include cardio, strength, flexibility exercises, and rest days. Specify exercise duration, intensity, and repetitions where applicable. "
-                f"Also, incorporate exercises using the following equipment: {', '.join(equipment) if equipment else 'None'}. "
-                f"If the provided data is insufficient or unrealistic, state explicitly that creating a fitness plan is impossible."
-            )
+                f"activity level of {activity_level}. Provide a structured day-by-day plan in **valid HTML table format**, "
+                f"with proper `<table>`, `<tr>`, and `<td>` tags for alignment."
 
+                f"The table should have these columns: *Day, Time, Exercise Type, Workout Details (Reps, Sets, Duration), Protein Goal (g), Meal Plan (Breakfast, Lunch, Dinner, Snacks)*. "
+                f"Ensure that the meal plan aligns with their {diet_preference} diet and supports their goal (muscle gain, weight loss, endurance, etc.). "
+
+                f"Include rest days where appropriate, and ensure exercises use the provided equipment: {', '.join(equipment) if equipment else 'None'}. "
+            )
 
             model = genai.GenerativeModel('gemini-1.5-flash')
             chat = model.start_chat(history=[])
             response = chat.send_message(prompt)
 
-            return JsonResponse({"fitness_plan": response.text.replace("*", "").strip()}, status=200)
+            return JsonResponse({"fitness_plan": response.text}, status=200)
 
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=500)

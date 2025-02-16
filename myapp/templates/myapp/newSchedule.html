@@ -266,6 +266,15 @@ input:checked + .slider:before {
             <input type="checkbox" class="equipment" value="Treadmill"> Treadmill
             <input type="checkbox" class="equipment" value="Yoga Mat"> Yoga Mat
 
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <h3>Your Prompt:</h3>
+            <input type="text" id="custom_prompt" name="custom_prompt" placeholder="Enter your custom goal...">
+            
+
             <button onclick="generatePlan()">Generate Fitness Plan</button>
         </div>
 
@@ -275,36 +284,56 @@ input:checked + .slider:before {
             <button id="saveSchedule" onclick="saveSchedule()" style="margin-top: 10px;">Set as Our Schedule</button>
         </div>
     </div>
-
     <script>
         function generatePlan() {
+            let duration = document.getElementById("duration").value;
+            let goal = document.getElementById("goal").value;
+            let fitness_level = document.getElementById("fitness_level").value;
+            let activity_level = document.getElementById("activity_level").value;
+            let diet_preference = document.getElementById("diet_preference").value;
+            let age = document.getElementById("age").value;
+            let weight = document.getElementById("weight").value;
+            let height = document.getElementById("height").value;
+            let gender = document.getElementById("gender").value;
+
+    
             let equipment = [];
-            document.querySelectorAll('.equipment:checked').forEach(e => equipment.push(e.value));
-
-            let data = {
-                duration: document.getElementById('duration').value,
-                goal: document.getElementById('goal').value,
-                fitness_level: document.getElementById('fitness_level').value,
-                age: document.getElementById('age').value,
-                gender: document.getElementById('gender').value,
-                weight: document.getElementById('weight').value,
-                height: document.getElementById('height').value,
-                activity_level: document.getElementById('activity_level').value,
-                diet_preference: document.getElementById('diet_preference').value,
-                equipment: equipment
-            };
-
-            fetch('/generate_fitness_plan/', {
+            document.querySelectorAll(".equipment:checked").forEach((checkbox) => {
+                equipment.push(checkbox.value);
+            });
+            
+    
+            let requestData = {};
+    
+            if (duration && duration !== "None") requestData.duration = duration;
+            if (goal && goal !== "None") requestData.goal = goal;
+            if (fitness_level && fitness_level !== "None") requestData.fitness_level = fitness_level;
+            if (activity_level && activity_level !== "None") requestData.activity_level = activity_level;
+            if (diet_preference && diet_preference !== "None") requestData.diet_preference = diet_preference;
+            if (age) requestData.age = age;
+            if (weight) requestData.weight = weight;
+            if (height) requestData.height = height;
+            if (gender && gender !== "None") requestData.gender = gender;
+            if (equipment.length > 0) requestData.equipment = equipment;    
+            fetch("/generate_fitness_plan/", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data)
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(requestData)
             })
             .then(response => response.json())
             .then(data => {
-                document.getElementById('result').innerText = data.fitness_plan || "Error generating plan.";
+                let resultContainer = document.getElementById("result");
+                if (data.fitness_plan) {
+                    resultContainer.innerHTML = data.fitness_plan; // Insert HTML table directly
+                } else {
+                    resultContainer.innerHTML = "<p>Error generating plan. Please try again.</p>";
+                }
             })
             .catch(error => {
-                document.getElementById('result').innerText = "Error: " + error;
+                console.error("Error:", error);
+                document.getElementById("result").innerHTML = "<p>Server error. Try again later.</p>";
             });
         }
 
@@ -329,5 +358,6 @@ input:checked + .slider:before {
         }
 
     </script>
+    
 </body>
 </html>
