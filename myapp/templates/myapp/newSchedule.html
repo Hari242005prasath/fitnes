@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token }}">
     <title>AI-Generated Fitness Plan</title>
     <style>
        /* Basic reset */
@@ -276,6 +277,8 @@ input:checked + .slider:before {
             
 
             <button onclick="generatePlan()">Generate Fitness Plan</button>
+            <button id="downloadPdfBtn" onclick="downloadPDF()">Download as PDF</button>
+
         </div>
 
         <div class="output-section">
@@ -284,78 +287,94 @@ input:checked + .slider:before {
             <button id="saveSchedule" onclick="saveSchedule()" style="margin-top: 10px;">Set as Our Schedule</button>
         </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
     <script>
-        function generatePlan() {
-            let duration = document.getElementById("duration").value;
-            let goal = document.getElementById("goal").value;
-            let fitness_level = document.getElementById("fitness_level").value;
-            let activity_level = document.getElementById("activity_level").value;
-            let diet_preference = document.getElementById("diet_preference").value;
-            let age = document.getElementById("age").value;
-            let weight = document.getElementById("weight").value;
-            let height = document.getElementById("height").value;
-            let gender = document.getElementById("gender").value;
+        
+        
+        function getCSRFToken() {
+    return document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+}
 
-    
-            let equipment = [];
-            document.querySelectorAll(".equipment:checked").forEach((checkbox) => {
-                equipment.push(checkbox.value);
-            });
-            
-    
-            let requestData = {};
-    
-            if (duration && duration !== "None") requestData.duration = duration;
-            if (goal && goal !== "None") requestData.goal = goal;
-            if (fitness_level && fitness_level !== "None") requestData.fitness_level = fitness_level;
-            if (activity_level && activity_level !== "None") requestData.activity_level = activity_level;
-            if (diet_preference && diet_preference !== "None") requestData.diet_preference = diet_preference;
-            if (age) requestData.age = age;
-            if (weight) requestData.weight = weight;
-            if (height) requestData.height = height;
-            if (gender && gender !== "None") requestData.gender = gender;
-            if (equipment.length > 0) requestData.equipment = equipment;    
-            fetch("/generate_fitness_plan/", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(requestData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                let resultContainer = document.getElementById("result");
-                if (data.fitness_plan) {
-                    resultContainer.innerHTML = data.fitness_plan; // Insert HTML table directly
-                } else {
-                    resultContainer.innerHTML = "<p>Error generating plan. Please try again.</p>";
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                document.getElementById("result").innerHTML = "<p>Server error. Try again later.</p>";
-            });
-        }
+function generatePlan() {
+    let requestData = {
+        duration: document.getElementById("duration").value,
+        goal: document.getElementById("goal").value,
+        fitness_level: document.getElementById("fitness_level").value,
+        activity_level: document.getElementById("activity_level").value,
+        diet_preference: document.getElementById("diet_preference").value,
+        age: document.getElementById("age").value,
+        weight: document.getElementById("weight").value,
+        height: document.getElementById("height").value,
+        gender: document.getElementById("gender").value,
+        equipment: Array.from(document.querySelectorAll(".equipment:checked"), el => el.value)
+    };
 
-        function setSchedule() {
-            alert("Your fitness plan has been set as your schedule!");
-        }
-        function saveSchedule() {
-            let fitnessPlan = document.getElementById("result").innerText;
+    fetch("/generate_fitness_plan/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(requestData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        let resultContainer = document.getElementById("result");
+        resultContainer.innerHTML = data.fitness_plan || "<p>Error generating plan. Please try again.</p>";
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        document.getElementById("result").innerHTML = "<p>Server error. Try again later.</p>";
+    });
+}
 
-            fetch('/save_fitness_plan/', {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ fitness_plan: fitnessPlan })
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.message || data.error);
-            })
-            .catch(error => {
-                alert("Error: " + error);
-            });
-        }
+function setSchedule() {
+    alert("Your fitness plan has been set as your schedule!");
+}
+
+function saveSchedule() {
+    let fitnessPlan = document.getElementById("result").innerText;
+
+    fetch("/save_fitness_plan/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fitness_plan: fitnessPlan })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message || data.error);
+    })
+    .catch(error => {
+        alert("Error: " + error);
+    });
+}
+
+function downloadPDF() {
+    fetch("/generate_fitness_pdf/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCSRFToken()
+        },
+        body: JSON.stringify({ fitness_plan: document.getElementById("result").innerHTML })
+    })
+    .then(response => {
+        if (!response.ok) throw new Error("Network response was not ok");
+        return response.blob();
+    })
+    .then(blob => {
+        let url = window.URL.createObjectURL(blob);
+        let a = document.createElement("a");
+        a.href = url;
+        a.download = "fitness_plan.pdf";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    })
+    .catch(error => {
+        console.error("Error generating PDF:", error);
+        alert("Error generating PDF. Try again later.");
+    });
+}
+
 
     </script>
     

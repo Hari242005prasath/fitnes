@@ -12,5 +12,9 @@ class userDetails(models.Model):
     user=models.CharField(max_length=50)
     password=models.CharField(max_length=50)
 
+
 class Gptinfo(models.Model):
-    text=models.TextField(max_length=10000)
+    pdf_file = models.FileField(upload_to='pdfs/', blank=True, null=True)
+
+    def __str__(self):
+        return f"PDF {self.id}"
