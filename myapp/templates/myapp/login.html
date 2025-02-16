@@ -152,20 +152,20 @@
             font-weight: bold;
         }
 
-        .twitter {
-            background: #1da1f2;
+        .google {
+            background: #db4437;
         }
 
-        .facebook {
-            background: #3b5998;
+        .linkedin {
+            background: #0077b5;
         }
 
-        .twitter:hover {
-            background: #0d8bd9;
+        .google:hover {
+            background: #c1351b;
         }
 
-        .facebook:hover {
-            background: #2e437a;
+        .linkedin:hover {
+            background: #005582;
         }
     </style>
 </head>
@@ -197,11 +197,32 @@
             <div class="divider">Or Login With</div>
 
             <div class="social-login">
-                <button class="twitter">Twitter</button>
-                <button class="facebook">Facebook</button>
+                <button type="button" class="google" onclick="loginWithGoogle()">Google</button>
+                <button type="button" class="linkedin" onclick="loginWithLinkedIn()">LinkedIn</button>
             </div>
         </form>
     </div>
+
+    <!-- ✅ JavaScript for OAuth Login -->
+    <script>
+        function loginWithGoogle() {
+            window.open(`https://accounts.google.com/o/oauth2/v2/auth?
+                client_id=YOUR_GOOGLE_CLIENT_ID&
+                redirect_uri=YOUR_REDIRECT_URI&
+                response_type=code&
+                scope=email%20profile&
+                access_type=offline&
+                prompt=select_account`, "_self");
+        }
+
+        function loginWithLinkedIn() {
+            window.open(`https://www.linkedin.com/oauth/v2/authorization?
+                response_type=code&
+                client_id=YOUR_LINKEDIN_CLIENT_ID&
+                redirect_uri=YOUR_REDIRECT_URI&
+                scope=r_liteprofile%20r_emailaddress`, "_self");
+        }
+    </script>
 
 </body>
 </html>
