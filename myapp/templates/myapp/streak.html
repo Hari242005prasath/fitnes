@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Streak Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        .streak {
+            background: green;
+            color: white;
+            padding: 20px;
+            margin: 20px auto;
+            width: 300px;
+            border-radius: 10px;
+        }
+        .streak button {
+            background: white;
+            color: green;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Daily Streak Tracker</h1>
+    
+    <div class="streak">
+        <p>Awesome! Keep your streak going!</p>
+        <h2 id="streak-count">0</h2>
+        <p>DAY STREAK</p>
+        <button onclick="shareStreak()">SHARE MY STREAK!</button>
+    </div>
+
+    <script>
+        function updateStreak() {
+            let lastLogin = localStorage.getItem("lastLogin");
+            let streak = parseInt(localStorage.getItem("streak")) || 0;
+            let now = new Date().getTime();
+            
+            if (lastLogin) {
+                let diff = now - parseInt(lastLogin);
+                if (diff < 86400000) { // Within 24 hours
+                    streak++;
+                } else {
+                    streak = 1; // Reset streak if more than 24 hours
+                }
+            } else {
+                streak = 1;
+            }
+
+            localStorage.setItem("streak", streak);
+            localStorage.setItem("lastLogin", now);
+            document.getElementById("streak-count").innerText = streak;
+        }
+
+        function shareStreak() {
+            alert("You have a " + localStorage.getItem("streak") + "-day streak! Keep it up!");
+        }
+
+        updateStreak();
+    </script>
+</body>
+</html>

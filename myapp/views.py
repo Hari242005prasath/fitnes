@@ -267,3 +267,7 @@ def display_fitness_plan(request):
     context = {"fitness_plan_url": latest_plan.pdf_file.url if latest_plan else None}
 
     return render(request, "myapp/ourOldschedule.html", context)
+
+
+def streak(request):
+    return render(request,'myapp/streak.html')
