@@ -325,28 +325,6 @@ function generatePlan() {
         document.getElementById("result").innerHTML = "<p>Server error. Try again later.</p>";
     });
 }
-
-function setSchedule() {
-    alert("Your fitness plan has been set as your schedule!");
-}
-
-function saveSchedule() {
-    let fitnessPlan = document.getElementById("result").innerText;
-
-    fetch("/save_fitness_plan/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fitness_plan: fitnessPlan })
-    })
-    .then(response => response.json())
-    .then(data => {
-        alert(data.message || data.error);
-    })
-    .catch(error => {
-        alert("Error: " + error);
-    });
-}
-
 function downloadPDF() {
     fetch("/generate_fitness_pdf/", {
         method: "POST",
@@ -375,6 +353,26 @@ function downloadPDF() {
     });
 }
 
+function setSchedule() {
+    alert("Your fitness plan has been set as your schedule!");
+}
+
+function saveSchedule() {
+    let fitnessPlan = document.getElementById("result").innerHTML;
+
+    fetch("/save_fitness_plan/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fitness_plan: fitnessPlan })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message || data.error);
+    })
+    .catch(error => {
+        alert("Error: " + error);
+    });
+}
 
     </script>
     

@@ -19,8 +19,10 @@ urlpatterns = [
     path("save_fitness_plan/", views.save_fitness_plan, name="save_fitness_plan"),
     path("fitness_plan/", views.display_fitness_plan, name="ourOldschedule"),
     path('generate_fitness_pdf/',views.generate_fitness_pdf,name='generate_fitness_pdf'),
-    path('streak/',views.streak,name='streak')
-
+    path('streak/',views.streak,name='streak'),
+    path('contact.html', views.contact, name='contact_html'),
+    path('index.html', views.home, name='index_html'),
+    path('about.html', views.about, name='about_html'),
 
 
 

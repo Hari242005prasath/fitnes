@@ -105,7 +105,6 @@ def generate_fitness_pdf(request):
         elements.append(title)
         elements.append(Spacer(1, 12))  # Add space after title
 
-        # Define column widths dynamically to fit within available width
         num_columns = len(table_data[0]) if table_data else 5  # Default to 5 columns
         col_widths = [available_width / num_columns] * num_columns  # Distribute width evenly
 
@@ -205,42 +204,84 @@ def login_view(request):
 
 
 import json
+import io
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.base import ContentFile
 from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
-from io import BytesIO
+from reportlab.lib import colors
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
+from reportlab.lib.styles import getSampleStyleSheet
+from bs4 import BeautifulSoup
 from .models import Gptinfo
 
 @csrf_exempt
 def save_fitness_plan(request):
-    """Generate and save a fitness plan PDF"""
+    """Generate and save a fitness plan PDF with styling"""
     if request.method == "POST":
         try:
             data = json.loads(request.body)
-            fitness_plan_text = data.get("fitness_plan", "")
+            fitness_plan_html = data.get("fitness_plan", "").strip()
 
-            if not fitness_plan_text:
+            if not fitness_plan_html:
                 return JsonResponse({"error": "No fitness plan provided"}, status=400)
 
-            # Generate PDF
-            buffer = BytesIO()
-            p = canvas.Canvas(buffer, pagesize=letter)
-            p.drawString(100, 750, "Your AI-Generated Fitness Plan")
+            # Convert AI-generated HTML table to structured data
+            soup = BeautifulSoup(fitness_plan_html, "html.parser")
+            table_data = []
 
-            y_position = 730  # Start position
-            for line in fitness_plan_text.split("\n"):
-                p.drawString(100, y_position, line)
-                y_position -= 20  # Move down
+            styles = getSampleStyleSheet()
+            body_style = styles["BodyText"]
+            body_style.wordWrap = "LTR"
 
-            p.save()
+            for row in soup.find_all("tr"):
+                columns = [Paragraph(col.get_text(strip=True), body_style) for col in row.find_all(["th", "td"])]
+                table_data.append(columns)
+
+            if not table_data:
+                return JsonResponse({"error": "Invalid table format in AI response"}, status=400)
+
+            # Generate PDF with styling
+            buffer = io.BytesIO()
+            margin = 56.7  # 2 cm in points
+            page_width, _ = letter
+            available_width = page_width - (2 * margin)
+
+            doc = SimpleDocTemplate(buffer, pagesize=letter, leftMargin=margin, rightMargin=margin)
+            elements = []
+
+            # Add title
+            title = Paragraph("<b>Your Fitness Plan</b>", styles["Title"])
+            elements.append(title)
+            elements.append(Spacer(1, 12))
+
+            num_columns = len(table_data[0]) if table_data else 5
+            col_widths = [available_width / num_columns] * num_columns
+
+            table = Table(table_data, colWidths=col_widths)
+            table.setStyle(TableStyle([
+                ("BACKGROUND", (0, 0), (-1, 0), colors.grey),
+                ("TEXTCOLOR", (0, 0), (-1, 0), colors.whitesmoke),
+                ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+                ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+                ("BOTTOMPADDING", (0, 0), (-1, 0), 12),
+                ("TOPPADDING", (0, 0), (-1, 0), 8),
+                ("BACKGROUND", (0, 1), (-1, -1), colors.beige),
+                ("GRID", (0, 0), (-1, -1), 1, colors.black),
+                ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                ("FONTNAME", (0, 1), (-1, -1), "Helvetica"),
+                ("FONTSIZE", (0, 0), (-1, -1), 9),
+                ("LEFTPADDING", (0, 0), (-1, -1), 5),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 5),
+            ]))
+
+            elements.append(table)
+            doc.build(elements)
+
             buffer.seek(0)
-
-            # Save to database
             pdf_filename = "fitness_plan.pdf"
             gptinfo_instance = Gptinfo()
-            gptinfo_instance.pdf_file.save(pdf_filename, buffer, save=True)
+            gptinfo_instance.pdf_file.save(pdf_filename, ContentFile(buffer.getvalue()), save=True)
 
             return JsonResponse({
                 "success": True,
