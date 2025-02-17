@@ -300,14 +300,8 @@ from django.http import JsonResponse
 from .models import Gptinfo
 
 def display_fitness_plan(request):
-    plans = Gptinfo.objects.all()
-
-    # Get the latest plan (modify logic if needed)
-    latest_plan = plans.last()  # Retrieves the most recent PDF
-
-    context = {"fitness_plan_url": latest_plan.pdf_file.url if latest_plan else None}
-
-    return render(request, "myapp/ourOldschedule.html", context)
+    gptinfos = Gptinfo.objects.all()  # Fetch all records
+    return render(request, 'myapp/ourOldschedule.html', {'gptinfos': gptinfos})
 
 
 def streak(request):
