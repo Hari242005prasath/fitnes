@@ -36,6 +36,7 @@ def generate_fitness_plan(request):
 
                 f"Include rest days where appropriate, and ensure exercises use the provided equipment: {', '.join(equipment) if equipment else 'None'}. "
                 f"The {age} should not exceed above 80.If it exceeds do not generate the plan. "
+                f"The {duration} must be above 0 else return not possible"
             )
 
             model = genai.GenerativeModel('gemini-1.5-flash')
