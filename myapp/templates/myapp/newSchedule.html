@@ -1,330 +1,441 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token }}">
-    <title>AI-Generated Fitness Plan</title>
-    <style>
-       /* Basic reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+{% extends 'myapp/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="schedule-dashboard">
+    <div class="schedule-container">
+        <div class="schedule-header">
+            <h1>Create Your Fitness Plan</h1>
+            <p>Customize your workout plan based on your goals</p>
+        </div>
+
+        <div class="schedule-form-card">
+            <form id="fitnessForm" method="POST">
+                {% csrf_token %}
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="duration">Duration</label>
+                        <input type="number" name="duration" id="duration">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="goal">Fitness Goal</label>
+                        <select name="goal" id="goal" required>
+                            <option value="Weight Loss">Weight Loss</option>
+                            <option value="Muscle Gain">Muscle Gain</option>
+                            <option value="General Fitness">General Fitness</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fitness_level">Fitness Level</label>
+                        <select name="fitness_level" id="fitness_level" required>
+                            <option value="Beginner">Beginner</option>
+                            <option value="Intermediate">Intermediate</option>
+                            <option value="Advanced">Advanced</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="age">Age</label>
+                        <input type="number" name="age" id="age" required min="15" max="80">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <select name="gender" id="gender" required>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="weight">Weight (kg)</label>
+                        <input type="number" name="weight" id="weight" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="height">Height (cm)</label>
+                        <input type="number" name="height" id="height" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="activity_level">Activity Level</label>
+                        <select name="activity_level" id="activity_level" required>
+                            <option value="Sedentary">Sedentary</option>
+                            <option value="Lightly Active">Lightly Active</option>
+                            <option value="Moderately Active">Moderately Active</option>
+                            <option value="Very Active">Very Active</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="diet_preference">Diet Preference</label>
+                        <select name="diet_preference" id="diet_preference">
+                            <option value="None">No Preference</option>
+                            <option value="Vegetarian">Vegetarian</option>
+                            <option value="Vegan">Vegan</option>
+                            <option value="Keto">Keto</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="equipment-section">
+                    <h3>Available Equipment</h3>
+                    <div class="equipment-grid">
+                        <label class="equipment-item">
+                            <input type="checkbox" name="equipment" value="Dumbbells">
+                            <span><i class="fas fa-dumbbell"></i> Dumbbells</span>
+                        </label>
+                        <label class="equipment-item">
+                            <input type="checkbox" name="equipment" value="Resistance Bands">
+                            <span><i class="fas fa-ring"></i> Resistance Bands</span>
+                        </label>
+                        <label class="equipment-item">
+                            <input type="checkbox" name="equipment" value="Treadmill">
+                            <span><i class="fas fa-running"></i> Treadmill</span>
+                        </label>
+                        <label class="equipment-item">
+                            <input type="checkbox" name="equipment" value="Yoga Mat">
+                            <span><i class="fas fa-spa"></i> Yoga Mat</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="generate-btn">
+                    <i class="fas fa-dumbbell"></i>
+                    Generate Fitness Plan
+                </button>
+            </form>
+        </div>
+
+        <div id="loading" class="loading-overlay" style="display: none;">
+            <div class="loading-content">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Generating your personalized fitness plan...</p>
+            </div>
+        </div>
+
+        <div id="result" class="result-section"></div>
+    </div>
+</div>
+
+<style>
+.schedule-dashboard {
+    padding: 40px 20px;
+    background: #f8f9fa;
+    min-height: calc(100vh - 80px);
+    font-family: 'Poppins', sans-serif;
 }
 
-/* Root variables for colors and fonts */
-:root {
-    --background-color-light: #f0f0f0;
-    --background-color-dark: #121212;
-    --text-color-light: #333;
-    --text-color-dark: #ffffff;
-    --primary-color: #2196F3;
-    --secondary-color: #ff4081;
-    --border-radius: 8px;
-    --transition-speed: 0.3s;
+.schedule-container {
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-/* Body styles */
-body {
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #e0e0e0, #f0f0f0);
-    color: var(--text-color-light);
-    transition: background var(--transition-speed), color var(--transition-speed);
+.schedule-header {
+    text-align: center;
+    margin-bottom: 40px;
 }
 
-/* Container styles */
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-width: 800px;
-    margin: auto;
-    padding: 20px;
-    border-radius: var(--border-radius);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    background-color: white;
-    transition: box-shadow var(--transition-speed);
-}
-
-.container:hover {
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-}
-
-/* Form section styles */
-h1 {
+.schedule-header h1 {
+    font-size: 2.5rem;
+    color: #333;
     margin-bottom: 10px;
-    font-size: 2.5em;
-    color: var(--primary-color);
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    font-weight: 700;
 }
 
-p {
-    margin-bottom: 20px;
-    font-size: 1.2em;
+.schedule-header p {
+    color: #666;
+    font-size: 1.1rem;
 }
 
-/* Input fields styles */
-input[type="text"],
-input[type="number"],
-select {
+.schedule-form-card {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: 500;
+}
+
+.form-group select,
+.form-group input {
     width: 100%;
     padding: 12px;
-    margin: 8px 0;
-    border: 1px solid #ccc;
-    border-radius: var(--border-radius);
-    transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+    border: 2px solid #e1e1e1;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
 }
 
-input[type="text"]:focus,
-input[type="number"]:focus,
-select:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 5px var(--primary-color);
+.form-group select:focus,
+.form-group input:focus {
+    border-color: purple;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(128, 0, 128, 0.1);
 }
 
-/* Checkbox styles */
-.equipment {
+.equipment-section {
+    margin-bottom: 30px;
+}
+
+.equipment-section h3 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.equipment-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.equipment-item {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.equipment-item:hover {
+    background: #f0f0f0;
+}
+
+.equipment-item input {
     margin-right: 10px;
 }
 
-/* Button styles */
-button {
-    padding: 12px 20px;
-    margin-top: 10px;
-    border: none;
-    border-radius: var(--border-radius);
-    background-color: var(--primary-color);
-    color: white;
-    font-size: 1.2em;
-    cursor: pointer;
-    transition: background-color var(--transition-speed), transform var(--transition-speed);
+.equipment-item i {
+    color: purple;
+    margin-right: 8px;
 }
 
-button:hover {
-    background-color: var(--secondary-color);
+.generate-btn {
+    width: 100%;
+    padding: 15px;
+    background: purple;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+.generate-btn:hover {
+    background: #6a006a;
     transform: translateY(-2px);
 }
 
-/* Output section styles */
-.output-section {
-    width: 100%;
-    background-color: #f9f9f9;
-    border-radius: var(--border-radius);
-    padding: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.scrollable-container {
-    max-height: 200px;
-    overflow-y: auto;
-    margin-top: 10px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: var(--border-radius);
-    background-color: white;
-}
-
-/* Dark mode styles */
-body.dark-mode {
-    background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
-    color: var(--text-color-dark);
-}
-
-body.dark-mode .container {
-    background-color: #1e1e1e;
-}
-
-body.dark-mode h1 {
-    color: var(--primary-color);
-    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.1);
-}
-
-body.dark-mode input[type="text"],
-body.dark-mode input[type="number"],
-body.dark-mode select {
-    border: 1px solid #444;
-    background-color: #333;
-    color: var(--text-color-dark);
-}
-
-body.dark-mode input[type="text"]:focus,
-body.dark-mode input[type="number"]:focus,
-body.dark-mode select:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 5px var(--primary-color);
-}
-
-body.dark-mode button {
-    background-color: var(--secondary-color);
-}
-
-body.dark-mode button:hover {
-    background-color: var(--primary-color);
-}
-
-/* Toggle Switch Styles */
-.toggle {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-}
-
-.toggle input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.slider {
-    position: absolute;
-    cursor: pointer;
+.loading-overlay {
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
-    border-radius: var(--border-radius);
-    transition: background-color var(--transition-speed);
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
 }
 
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    border-radius: 50%;
-    transition: transform var(--transition-speed), background-color var(--transition-speed);
+.loading-content {
+    text-align: center;
+    color: white;
 }
 
-input:checked + .slider {
-    background-color: var(--primary-color);
+.loading-content i {
+    font-size: 3rem;
+    margin-bottom: 15px;
 }
 
-input:checked + .slider:before {
-    transform: translateX(26px);
+.result-section {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Responsive styles */
+.result-section table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.result-section th,
+.result-section td {
+    padding: 12px;
+    border: 1px solid #e1e1e1;
+    text-align: left;
+}
+
+.result-section th {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #333;
+}
+
 @media (max-width: 768px) {
-    h1 {
-        font-size: 2em; /* Smaller heading on mobile */
+    .form-grid {
+        grid-template-columns: 1fr;
     }
     
-    button {
-        width: 100%;
+    .equipment-grid {
+        grid-template-columns: 1fr;
     }
 }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="form-section">
-            <h1>🏋 AI Fitness Plan</h1>
-            <p>Fill in the details to generate your personalized fitness plan.</p>
 
-            <input type="text" id="duration" placeholder="Plan Duration (e.g., '4 weeks')">
-            <input type="text" id="goal" placeholder="Fitness Goal (e.g., 'weight loss')">
-            
-            <select id="fitness_level">
-                <option value="Beginner">Beginner</option>
-                <option value="Intermediate">Intermediate</option>
-                <option value="Advanced">Advanced</option>
-            </select>
+.plan-result {
+    margin-top: 30px;
+    padding: 20px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
-            <select id="activity_level">
-                <option value="Sedentary">Sedentary</option>
-                <option value="Lightly Active">Lightly Active</option>
-                <option value="Moderately Active">Moderately Active</option>
-                <option value="Very Active">Very Active</option>
-            </select>
+.plan-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
 
-            <select id="diet_preference">
-                <option value="None">None</option>
-                <option value="Vegan">Vegan</option>
-                <option value="Vegetarian">Vegetarian</option>
-                <option value="Keto">Keto</option>
-                <option value="Low Carb">Low Carb</option>
-            </select>
+.action-btn {
+    padding: 12px 24px;
+    background: purple;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
 
-            <input type="number" id="age" placeholder="Age" min="10" max="100" value="25">
-            <input type="number" id="weight" placeholder="Weight (kg)" min="30" max="150" value="70">
-            <input type="number" id="height" placeholder="Height (cm)" min="100" max="220" value="170">
-            
-            <select id="gender">
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
-            </select>
-            
-            <label>Available Equipment:</label>
-            <input type="checkbox" class="equipment" value="Dumbbells"> Dumbbells
-            <input type="checkbox" class="equipment" value="Resistance Bands"> Resistance Bands
-            <input type="checkbox" class="equipment" value="Treadmill"> Treadmill
-            <input type="checkbox" class="equipment" value="Yoga Mat"> Yoga Mat
+.action-btn:hover {
+    background: #6a006a;
+    transform: translateY(-2px);
+}
 
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <h3>Your Prompt:</h3>
-            <input type="text" id="custom_prompt" name="custom_prompt" placeholder="Enter your custom goal...">
-            
+.error-message {
+    padding: 15px;
+    background: #fff2f2;
+    color: #e41749;
+    border-left: 4px solid #e41749;
+    border-radius: 8px;
+}
+</style>
 
-            <button onclick="generatePlan()">Generate Fitness Plan</button>
-            <button id="downloadPdfBtn" onclick="downloadPDF()">Download as PDF</button>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const fitnessForm = document.getElementById('fitnessForm');
+    const loadingOverlay = document.getElementById('loading');
+    const resultSection = document.getElementById('result');
 
-        </div>
-
-        <div class="output-section">
-            <h2>📋 Your AI-Generated Fitness Plan</h2>
-            <div class="scrollable-container" id="result">Your plan will appear here...</div>
-            <button id="saveSchedule" onclick="saveSchedule()" style="margin-top: 10px;">Set as Our Schedule</button>
-        </div>
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-
-    <script>
+    fitnessForm.addEventListener('submit', function(e) {
+        e.preventDefault();
         
-        
-        function getCSRFToken() {
+        // Show loading overlay
+        loadingOverlay.style.display = 'flex';
+
+        // Get all checked equipment
+        const checkedEquipment = Array.from(document.querySelectorAll('input[name="equipment"]:checked')).map(el => el.value);
+
+        // Create request data
+        const requestData = {
+            duration: document.getElementById('duration').value + " weeks",
+            goal: document.getElementById('goal').value,
+            fitness_level: document.getElementById('fitness_level').value,
+            age: document.getElementById('age').value,
+            gender: document.getElementById('gender').value,
+            weight: document.getElementById('weight').value,
+            height: document.getElementById('height').value,
+            activity_level: document.getElementById('activity_level').value,
+            diet_preference: document.getElementById('diet_preference').value,
+            equipment: checkedEquipment
+        };
+
+        // Get CSRF token
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        // Send request to generate plan
+        fetch('/generate_fitness_plan/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken
+            },
+            body: JSON.stringify(requestData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Hide loading overlay
+            loadingOverlay.style.display = 'none';
+
+            if (data.fitness_plan) {
+                // Display the result
+                resultSection.innerHTML = `
+                    <div class="plan-result">
+                        ${data.fitness_plan}
+                        <div class="plan-actions">
+                            <button onclick="downloadPDF()" class="action-btn">
+                                <i class="fas fa-download"></i> Download PDF
+                            </button>
+                            <button onclick="saveSchedule()" class="action-btn">
+                                <i class="fas fa-save"></i> Save Plan
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                // Scroll to result
+                resultSection.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                resultSection.innerHTML = '<div class="error-message">Error generating plan. Please try again.</div>';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            loadingOverlay.style.display = 'none';
+            resultSection.innerHTML = '<div class="error-message">Server error. Please try again later.</div>';
+        });
+    });
+});
+
+function getCSRFToken() {
     return document.querySelector('meta[name="csrf-token"]').getAttribute("content");
 }
 
-function generatePlan() {
-    let requestData = {
-        duration: document.getElementById("duration").value,
-        goal: document.getElementById("goal").value,
-        fitness_level: document.getElementById("fitness_level").value,
-        activity_level: document.getElementById("activity_level").value,
-        diet_preference: document.getElementById("diet_preference").value,
-        age: document.getElementById("age").value,
-        weight: document.getElementById("weight").value,
-        height: document.getElementById("height").value,
-        gender: document.getElementById("gender").value,
-        equipment: Array.from(document.querySelectorAll(".equipment:checked"), el => el.value)
-    };
-
-    fetch("/generate_fitness_plan/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(requestData)
-    })
-    .then(response => response.json())
-    .then(data => {
-        let resultContainer = document.getElementById("result");
-        resultContainer.innerHTML = data.fitness_plan || "<p>Error generating plan. Please try again.</p>";
-    })
-    .catch(error => {
-        console.error("Error:", error);
-        document.getElementById("result").innerHTML = "<p>Server error. Try again later.</p>";
-    });
-}
 function downloadPDF() {
     fetch("/generate_fitness_pdf/", {
         method: "POST",
@@ -373,8 +484,5 @@ function saveSchedule() {
         alert("Error: " + error);
     });
 }
-
-    </script>
-    
-</body>
-</html>
+</script>
+{% endblock %}

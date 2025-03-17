@@ -1,0 +1,135 @@
+
+                    <div class="plan-result">
+                        ```html
+
+
+
+<title>3-Week Fitness Plan</title>
+<style>
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: left;
+}
+</style>
+
+
+
+<h1>3-Week Fitness Plan for Weight Loss (Beginner)</h1>
+
+<h2>Important Notes:</h2>
+<ul>
+  <li>Consult your doctor before starting any new workout routine.</li>
+  <li>This plan assumes access to dumbbells. Adjust weights to your comfort level.</li>
+  <li>Listen to your body and rest when needed.</li>
+  <li>Hydration is crucial. Drink plenty of water throughout the day.</li>
+  <li>Protein intake is essential for muscle repair and weight management. Adjust portion sizes based on your individual needs.</li>
+</ul>
+
+
+<table>
+  <tbody><tr>
+    <th>Day</th>
+    <th>Time</th>
+    <th>Exercise Type</th>
+    <th>Workout Details (Reps, Sets, Duration)</th>
+    <th>Protein Goal (g)</th>
+    <th>Meal Plan (Breakfast, Lunch, Dinner, Snacks)</th>
+  </tr>
+  <tr>
+    <td><strong>Week 1</strong></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Monday</td>
+    <td>7:00 AM</td>
+    <td>Cardio</td>
+    <td>30 minutes brisk walking/jogging</td>
+    <td>60g</td>
+    <td>Breakfast: Oatmeal with berries and nuts, Lunch: Lentil soup with whole-wheat bread, Dinner: Tofu stir-fry with brown rice, Snacks: Greek Yogurt, Apple slices with peanut butter</td>
+  </tr>
+  <tr>
+    <td>Tuesday</td>
+    <td>7:00 AM</td>
+    <td>Strength Training (Dumbbells)</td>
+    <td>Bicep Curls (10 reps, 3 sets), Triceps Extensions (10 reps, 3 sets), Shoulder Press (10 reps, 3 sets), Squats (10 reps, 3 sets)</td>
+    <td>70g</td>
+    <td>Breakfast: Scrambled tofu with spinach and whole-wheat toast, Lunch: Quinoa salad with chickpeas and vegetables, Dinner: Vegetable curry with brown rice, Snacks: Trail mix (nuts, seeds, dried fruit), Cottage cheese</td>
+  </tr>
+  <tr>
+    <td>Wednesday</td>
+    <td>7:00 AM</td>
+    <td>Cardio</td>
+    <td>30 minutes brisk walking/cycling</td>
+    <td>60g</td>
+    <td>Breakfast: Smoothie with protein powder, banana, and spinach, Lunch: Veggie burger on a whole-wheat bun with a side salad, Dinner: Lentil Shepherd's Pie with sweet potato topping, Snacks: Hard-boiled eggs, Edamame</td>
+  </tr>
+    <tr>
+    <td>Thursday</td>
+    <td>7:00 AM</td>
+    <td>Rest</td>
+    <td></td>
+    <td>60g</td>
+    <td>Breakfast: Pancakes made with whole-wheat flour and topped with fruit, Lunch: Leftover lentil Shepherd's Pie, Dinner: Black bean burgers with roasted vegetables, Snacks: Rice cakes with avocado, Almonds</td>
+  </tr>
+  <tr>
+    <td>Friday</td>
+    <td>7:00 AM</td>
+    <td>Strength Training (Dumbbells)</td>
+    <td>Bicep Curls (12 reps, 3 sets), Triceps Extensions (12 reps, 3 sets), Shoulder Press (12 reps, 3 sets), Squats (12 reps, 3 sets)</td>
+    <td>70g</td>
+    <td>Breakfast: Greek Yogurt with granola and berries, Lunch: Salad with grilled halloumi cheese (vegetarian option), Dinner: Chickpea pasta with tomato sauce and vegetables, Snacks:  Protein bar, Banana</td>
+  </tr>
+  <tr>
+    <td>Saturday</td>
+    <td>7:00 AM</td>
+    <td>Cardio</td>
+    <td>45 minutes brisk walking/swimming</td>
+    <td>60g</td>
+    <td>Breakfast: Tofu scramble with vegetables, Lunch: Leftover chickpea pasta, Dinner: Vegetable pizza on whole-wheat crust, Snacks: Apple slices with almond butter, Popcorn</td>
+  </tr>
+  <tr>
+    <td>Sunday</td>
+    <td>7:00 AM</td>
+    <td>Rest</td>
+    <td></td>
+    <td>60g</td>
+    <td>Breakfast: Whole-wheat toast with avocado, Lunch: Leftover vegetable pizza, Dinner:  Vegetarian chili with cornbread, Snacks:  Dark chocolate (small piece), Orange</td>
+  </tr>
+
+  <tr>
+    <td><strong>Week 2 &amp; 3</strong></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td colspan="6"> Repeat Week 1 schedule, gradually increasing the intensity and duration of cardio and adding more reps/sets to strength training exercises as you feel comfortable.  Increase protein intake to 70-80g on strength training days, and aim for 60g on cardio and rest days.  Vary your meals to maintain a balanced and enjoyable diet.</td>
+  </tr>
+</tbody></table>
+
+
+
+```
+
+                        <div class="plan-actions">
+                            <button onclick="downloadPDF()" class="action-btn" fdprocessedid="lob5nh">
+                                <i class="fas fa-download" aria-hidden="true"></i> Download PDF
+                            </button>
+                            <button onclick="saveSchedule()" class="action-btn" fdprocessedid="kzacvr">
+                                <i class="fas fa-save" aria-hidden="true"></i> Save Plan
+                            </button>
+                        </div>
+                    </div>
+                

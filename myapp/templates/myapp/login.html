@@ -1,228 +1,376 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
-    {% load static %}
+    <title>Fitnezz - Login</title>
     <style>
-        /* Reset default styles */
+        :root {
+            --primary: purple;
+            --primary-dark: violet;
+            --secondary: #FF5722;
+            --light: #F5F5F5;
+            --dark: #333;
+            --error: #F44336;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* Full-screen background image */
         body {
-            background: url('{% static "images/login_img.jpg" %}') no-repeat center center fixed;
-            background-size: cover;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background-color: var(--light);
             height: 100vh;
-            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #9400D3, #4B0082);  /* Darker purple gradient */
+            background-size: cover;
+            background-position: center;
         }
 
-        /* Login container */
-        .login-box {
-            text-align: center;
-            width: 350px;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 30px;
+        .container {
+            display: flex;
+            width: 90%;
+            max-width: 900px;
+            height: 600px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
             border-radius: 10px;
+            overflow: hidden;
         }
 
-        /* Form heading */
-        .login-box h2 {
-            font-size: 22px;
-            font-weight: bold;
+        .image-container {
+            flex: 1;
+            background-image: url('{% static "images/login-bg.jpg" %}');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2rem;
             color: white;
-            margin-bottom: 8px;
+            position: relative;
         }
 
-        .login-box p {
-            font-size: 14px;
-            color: #eee;
-            margin-bottom: 20px;
+        .image-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
         }
 
-        /* Input fields */
-        .input-group {
-            text-align: left;
-            margin-bottom: 15px;
+        .image-container h2, .image-container p {
+            position: relative;
+            z-index: 1;
         }
 
-        .input-group label {
-            font-size: 14px;
+        .image-container h2 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-container {
+            flex: 1;
+            background-color: white;
+            padding: 3rem 2rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
             font-weight: bold;
+            color: var(--dark);
+        }
+
+        .logo-text span {
+            color: purple;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
             display: block;
-            margin-bottom: 5px;
-            color: white;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+            font-weight: 500;
         }
 
-        .input-group input {
+        input {
             width: 100%;
-            padding: 10px;
-            font-size: 14px;
-            background: rgba(255, 255, 255, 0.3);
-            border: 1px solid white;
+            padding: 12px;
+            border: 1px solid #ddd;
             border-radius: 5px;
-            color: white;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
             outline: none;
+            border-color: var(--primary);
         }
 
-        .input-group input::placeholder {
-            color: #ddd;
+        .error-message {
+            color: var(--error);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            display: none;
         }
 
-        /* Remember Me & Forgot Password */
-        .options {
+        .remember-forgot {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 14px;
-            margin-bottom: 15px;
-            color: white;
+            margin-bottom: 1.5rem;
         }
 
-        .options input {
-            margin-right: 5px;
+        .remember {
+            display: flex;
+            align-items: center;
         }
 
-        .options a {
+        .remember input {
+            width: auto;
+            margin-right: 0.5rem;
+        }
+
+        .forgot-password {
+            color: var(--primary);
             text-decoration: none;
-            color: #ffc107;
+            font-weight: 500;
         }
 
-        .options a:hover {
+        .forgot-password:hover {
             text-decoration: underline;
         }
 
-        /* Login button */
         .login-btn {
-            width: 100%;
-            background: #007bff;
+            background-color: var(--primary);
             color: white;
             border: none;
-            padding: 10px;
-            font-size: 16px;
-            cursor: pointer;
+            padding: 12px;
             border-radius: 5px;
-            font-weight: bold;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-bottom: 1.5rem;
         }
 
         .login-btn:hover {
-            background: #0056b3;
+            background-color: var(--primary-dark);
         }
 
-        /* Divider */
         .divider {
             display: flex;
             align-items: center;
-            text-align: center;
-            margin: 15px 0;
-            font-size: 14px;
-            color: #ccc;
+            margin: 1.5rem 0;
+            color: #777;
         }
 
-        .divider::before,
-        .divider::after {
-            content: "";
+        .divider::before, .divider::after {
+            content: '';
             flex: 1;
-            border-bottom: 1px solid #ccc;
-            margin: 5px;
+            height: 1px;
+            background-color: #ddd;
         }
 
-        /* Social login buttons */
+        .divider span {
+            padding: 0 10px;
+        }
+
         .social-login {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
         }
 
-        .social-login button {
-            width: 48%;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ddd;
             cursor: pointer;
-            font-size: 14px;
-            color: white;
-            font-weight: bold;
+            transition: background-color 0.3s;
         }
 
-        .google {
-            background: #db4437;
+        .social-btn:hover {
+            background-color: #f5f5f5;
         }
 
-        .linkedin {
-            background: #0077b5;
+        .register-link {
+            text-align: center;
+            color: #777;
         }
 
-        .google:hover {
-            background: #c1351b;
+        .register-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
         }
 
-        .linkedin:hover {
-            background: #005582;
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .image-container {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
-
-    <div class="login-box">
-        <h2>Welcome Back</h2>
-        <p>Please enter your credentials to continue</p>
-
-        <form method="POST">
-            {% csrf_token %}
-            <div class="input-group">
-                <label>Username</label>
-                <input type="text" name="username" placeholder="Enter your username">
+    <div class="container">
+        <div class="image-container">
+            <h2>Transform Your Body</h2>
+            <p>Join our fitness community today and start your journey to a healthier you.</p>
+        </div>
+        <div class="form-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+                        <path d="M6 8h-1a4 4 0 0 0 0 8h1"></path>
+                        <path d="M8 6h8"></path>
+                        <path d="M8 18h8"></path>
+                        <path d="M8 12h8"></path>
+                    </svg>
+                </div>
+                <div class="logo-text">Fitne<span>zz</span></div>
             </div>
-
-            <div class="input-group">
-                <label>Password</label>
-                <input type="password" name="password" placeholder="Enter your password">
-            </div>
-
-            <div class="options">
-                <label><input type="checkbox" name="remember"> Remember Me</label>
-                <a href="#">Forgot Password?</a>
-            </div>
-
-            <button type="submit" class="login-btn">Login</button>
-
-            <div class="divider">Or Login With</div>
-
+            <h1>Welcome Back!</h1>
+            <form id="login-form" method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Enter your username">
+                    <div class="error-message" id="username-error">Please enter your username</div>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password">
+                    <div class="error-message" id="password-error">Password must be at least 6 characters</div>
+                </div>
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{% if message.tags %}{{ message.tags }}{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <div class="remember-forgot">
+                    <div class="remember">
+                        <input type="checkbox" id="remember">
+                        <label for="remember">Remember me</label>
+                    </div>
+                    <a href="#" class="forgot-password">Forgot Password?</a>
+                </div>
+                <button type="submit" class="login-btn">Log In</button>
+            </form>
+            <div class="divider"><span>OR</span></div>
             <div class="social-login">
-                <button type="button" class="google" onclick="loginWithGoogle()">Google</button>
-                <button type="button" class="linkedin" onclick="loginWithLinkedIn()">LinkedIn</button>
+                <div class="social-btn" title="Login with Google">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#DB4437">
+                        <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z"/>
+                    </svg>
+                </div>
+                <div class="social-btn" title="Login with Facebook">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#4267B2">
+                        <path d="M20.9,2H3.1C2.5,2,2,2.5,2,3.1v17.8C2,21.5,2.5,22,3.1,22h9.6v-7.7h-2.6v-3h2.6V9.2c0-2.6,1.6-4,3.9-4c1.1,0,2.1,0.1,2.3,0.1v2.7h-1.6c-1.3,0-1.5,0.6-1.5,1.5v1.9h3l-0.4,3h-2.6V22h5.1c0.6,0,1.1-0.5,1.1-1.1V3.1C22,2.5,21.5,2,20.9,2z"/>
+                    </svg>
+                </div>
+                <div class="social-btn" title="Login with Twitter">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#1DA1F2">
+                        <path d="M22.46,6c-0.77,0.35-1.6,0.58-2.46,0.69c0.88-0.53,1.56-1.37,1.88-2.38c-0.83,0.5-1.75,0.85-2.72,1.05C18.37,4.5,17.26,4,16,4c-2.35,0-4.27,1.92-4.27,4.29c0,0.34,0.04,0.67,0.11,0.98C8.28,9.09,5.11,7.38,3,4.79c-0.37,0.63-0.58,1.37-0.58,2.15c0,1.49,0.75,2.81,1.91,3.56c-0.71,0-1.37-0.2-1.95-0.5c0,0.02,0,0.03,0,0.05c0,2.08,1.48,3.82,3.44,4.21c-0.36,0.1-0.74,0.15-1.13,0.15c-0.27,0-0.54-0.03-0.8-0.08c0.54,1.69,2.11,2.95,3.98,2.98c-1.46,1.16-3.31,1.84-5.33,1.84c-0.35,0-0.69-0.02-1.03-0.06c1.9,1.22,4.16,1.93,6.58,1.93c7.88,0,12.21-6.54,12.21-12.21c0-0.19,0-0.37-0.01-0.56C21.14,7.63,21.85,6.87,22.46,6z"/>
+                    </svg>
+                </div>
             </div>
-        </form>
+            <div class="register-link">
+                Don't have an account? <a href="#">Sign Up</a>
+            </div>
+        </div>
     </div>
 
-    <!-- ✅ JavaScript for OAuth Login -->
     <script>
-        function loginWithGoogle() {
-            window.open(`https://accounts.google.com/o/oauth2/v2/auth?
-                client_id=YOUR_GOOGLE_CLIENT_ID&
-                redirect_uri=YOUR_REDIRECT_URI&
-                response_type=code&
-                scope=email%20profile&
-                access_type=offline&
-                prompt=select_account`, "_self");
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.getElementById('login-form');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const usernameError = document.getElementById('username-error');
+            const passwordError = document.getElementById('password-error');
 
-        function loginWithLinkedIn() {
-            window.open(`https://www.linkedin.com/oauth/v2/authorization?
-                response_type=code&
-                client_id=YOUR_LINKEDIN_CLIENT_ID&
-                redirect_uri=YOUR_REDIRECT_URI&
-                scope=r_liteprofile%20r_emailaddress`, "_self");
-        }
+            // Form submission handler
+            loginForm.addEventListener('submit', function(e) {
+                let isValid = true;
+
+                // Validate username
+                if (!usernameInput.value.trim()) {
+                    usernameError.style.display = 'block';
+                    usernameInput.style.borderColor = 'var(--error)';
+                    isValid = false;
+                    e.preventDefault();
+                } else {
+                    usernameError.style.display = 'none';
+                    usernameInput.style.borderColor = '#ddd';
+                }
+
+                // Validate password
+                if (passwordInput.value.length < 6) {
+                    passwordError.style.display = 'block';
+                    passwordInput.style.borderColor = 'var(--error)';
+                    isValid = false;
+                    e.preventDefault();
+                } else {
+                    passwordError.style.display = 'none';
+                    passwordInput.style.borderColor = '#ddd';
+                }
+
+                // If form is valid, it will submit to the server
+                // No need for manual redirect here as the view will handle it
+            });
+        });
     </script>
-
 </body>
 </html>

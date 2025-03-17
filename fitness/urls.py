@@ -16,10 +16,27 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-
-
+from myapp import views
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path("admin/", admin.site.urls),  
+    #path("", views.index, name="index"),
+    path("home/", views.home, name="home"),
+    path("about/", views.about, name="about"),
+    path("contact/", views.contact, name="contact"),
+    path('accounts/login/', auth_views.LoginView.as_view(
+        template_name='myapp/login.html',
+        redirect_field_name='next'
+    ), name='login'),
     path("", include("myapp.urls")),  
-]
+    path('generate_fitness_pdf/', views.generate_fitness_pdf, name='generate_fitness_pdf'),
+    path('newSchedule/', views.newSchedule, name='newSchedule'),
+    path('ourOldschedule/', views.ourSchedule, name='ourOldschedule'),
+    path('save_fitness_plan/', views.save_fitness_plan, name='save_fitness_plan'),
+    path('streak', views.streak),
+    path('analytics', views.analytics),
+    path('log_workout/', views.log_workout, name='log_workout'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

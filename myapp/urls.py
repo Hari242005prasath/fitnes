@@ -15,7 +15,7 @@ urlpatterns = [
     path('joinin/', views.joinin, name='joinin'),
     path('new-schedule/', views.newSchedule, name='newSchedule'),
     path('Our-schedule/', views.ourSchedule, name='ourSchedule'),
-    path('',views.login_view,name='login'),
+    path('', views.login_view, name='login'),
     path("save_fitness_plan/", views.save_fitness_plan, name="save_fitness_plan"),
     path("fitness_plan/", views.display_fitness_plan, name="ourOldschedule"),
     path('generate_fitness_pdf/',views.generate_fitness_pdf,name='generate_fitness_pdf'),
@@ -23,10 +23,8 @@ urlpatterns = [
     path('contact.html', views.contact, name='contact_html'),
     path('index.html', views.home, name='index_html'),
     path('about.html', views.about, name='about_html'),
-
-
-
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('analytics/', views.analytics, name='analytics'),
+]
 
 
 if settings.DEBUG:

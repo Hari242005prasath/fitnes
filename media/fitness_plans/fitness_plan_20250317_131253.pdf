@@ -1,0 +1,112 @@
+
+                    <div class="plan-result">
+                        ```html
+
+
+
+<title>4-Week Fitness Plan</title>
+<style>
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: left;
+}
+</style>
+
+
+
+<h1>4-Week Fitness Plan for Weight Loss (Vegetarian)</h1>
+
+<h2>Important Note: This plan is a suggestion and should be adapted to individual needs and capabilities. Consult a doctor or physical therapist before starting any new exercise program.</h2>
+
+<table>
+  <tbody><tr>
+    <th>Day</th>
+    <th>Time</th>
+    <th>Exercise Type</th>
+    <th>Workout Details (Reps, Sets, Duration)</th>
+    <th>Protein Goal (g)</th>
+    <th>Meal Plan (Breakfast, Lunch, Dinner, Snacks)</th>
+  </tr>
+
+  <tr>
+    <td><strong>Week 1</strong></td>
+    <td colspan="5"></td>
+  </tr>
+  <tr>
+    <td>Monday</td>
+    <td>8:00 AM</td>
+    <td>Strength Training</td>
+    <td>Dumbbell Bicep Curls (10 reps, 3 sets); Dumbbell Tricep Extensions (10 reps, 3 sets); Dumbbell Shoulder Press (10 reps, 3 sets); Dumbbell Rows (10 reps, 3 sets)</td>
+    <td>60g</td>
+    <td>Breakfast: Oatmeal with nuts and seeds, Greek Yogurt. Lunch: Lentil Soup with whole-wheat bread. Dinner: Tofu Stir-fry with brown rice. Snack: Apple slices with peanut butter.</td>
+  </tr>
+  <tr>
+    <td>Tuesday</td>
+    <td>8:00 AM</td>
+    <td>Cardio</td>
+    <td>Brisk Walking (30 minutes)</td>
+    <td>50g</td>
+    <td>Breakfast: Tofu scramble with vegetables. Lunch: Quinoa salad with chickpeas and vegetables. Dinner: Vegetable Curry with brown rice. Snack: Handful of almonds.</td>
+  </tr>
+  <tr>
+    <td>Wednesday</td>
+    <td>Rest</td>
+    <td colspan="4">Active recovery: Gentle stretching or yoga.</td>
+  </tr>
+  <tr>
+    <td>Thursday</td>
+    <td>8:00 AM</td>
+    <td>Strength Training</td>
+    <td>Dumbbell Squats (10 reps, 3 sets); Dumbbell Lunges (10 reps per leg, 3 sets); Dumbbell Bench Press (8 reps, 3 sets)</td>
+    <td>60g</td>
+    <td>Breakfast: Smoothie with protein powder (plant-based), spinach, and banana. Lunch: Veggie burger on a whole-wheat bun with a side salad. Dinner: Black bean burgers with sweet potato fries. Snack: Cottage cheese.</td>
+  </tr>
+  <tr>
+    <td>Friday</td>
+    <td>8:00 AM</td>
+    <td>Cardio</td>
+    <td>Cycling (30 minutes)</td>
+    <td>50g</td>
+    <td>Breakfast: Whole-wheat toast with avocado and tomato. Lunch: Leftover black bean burgers. Dinner: Vegetarian chili with cornbread. Snack: Trail mix (nuts, seeds, dried fruit).</td>
+  </tr>
+  <tr>
+    <td>Saturday</td>
+    <td>Rest</td>
+    <td colspan="4">Active recovery: Light walk or swim.</td>
+  </tr>
+  <tr>
+    <td>Sunday</td>
+    <td>Rest</td>
+    <td colspan="4">Complete rest.</td>
+  </tr>
+
+
+  <tr>
+    <td><strong>Week 2 - 4</strong></td>
+    <td colspan="5">Repeat a similar structure as Week 1, gradually increasing the weight, reps, sets, or duration of exercises as you feel comfortable.  Introduce variations in cardio activities (e.g., swimming, elliptical). Consider adding more challenging exercises as strength improves.  Maintain a consistent protein intake and focus on healthy vegetarian meals.</td>
+  </tr>
+
+</tbody></table>
+
+
+
+```
+
+**Note:** This is a sample plan.  The provided meal plan is a suggestion and calorie and macro needs will vary based on individual metabolic rate and activity level.  It's crucial to consult a registered dietitian or nutritionist for personalized dietary advice.  Progressive overload (gradually increasing the intensity of workouts) is key for continued progress.  Listen to your body and rest when needed.  This plan assumes a baseline intermediate fitness level; adjust accordingly if needed.  Always prioritize proper form to avoid injuries.
+
+                        <div class="plan-actions">
+                            <button onclick="downloadPDF()" class="action-btn">
+                                <i class="fas fa-download" aria-hidden="true"></i> Download PDF
+                            </button>
+                            <button onclick="saveSchedule()" class="action-btn">
+                                <i class="fas fa-save" aria-hidden="true"></i> Save Plan
+                            </button>
+                        </div>
+                    </div>
+                

@@ -1,0 +1,114 @@
+
+                    <div class="plan-result">
+                        ```html
+
+
+
+<title>3-Week Fitness Plan</title>
+<style>
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: left;
+}
+</style>
+
+
+
+<h1>3-Week Weight Loss Fitness Plan (Beginner)</h1>
+
+<h2>Client Details:</h2>
+<p>Age: 56, Weight: 77 kg, Height: 175 cm, Diet: Vegetarian, Activity Level: Sedentary, Goal: Weight Loss, Equipment: Resistance Bands</p>
+
+<h2>Week 1</h2>
+<table>
+  <tbody><tr>
+    <th>Day</th>
+    <th>Time</th>
+    <th>Exercise Type</th>
+    <th>Workout Details (Reps, Sets, Duration)</th>
+    <th>Protein Goal (g)</th>
+    <th>Meal Plan</th>
+  </tr>
+  <tr>
+    <td>Monday</td>
+    <td>7:00 AM</td>
+    <td>Resistance Band Workout</td>
+    <td>Band Rows: 10 reps, 3 sets; Band Bicep Curls: 12 reps, 3 sets; Band Tricep Extensions: 12 reps, 3 sets; Band Squats: 15 reps, 3 sets; Plank: 30 seconds, 3 sets</td>
+    <td>60g</td>
+    <td>Breakfast: Oatmeal with berries and nuts; Lunch: Lentil soup with whole-wheat bread; Dinner: Tofu stir-fry with brown rice; Snack: Greek Yogurt with fruit</td>
+  </tr>
+  <tr>
+    <td>Tuesday</td>
+    <td>7:00 AM</td>
+    <td>Cardio</td>
+    <td>Brisk Walking: 30 minutes</td>
+    <td>50g</td>
+    <td>Breakfast: Scrambled Tofu with veggies; Lunch: Quinoa salad with chickpeas and vegetables; Dinner: Vegetable Curry with brown rice; Snack: Apple slices with peanut butter</td>
+  </tr>
+  <tr>
+    <td>Wednesday</td>
+    <td>REST</td>
+    <td>REST</td>
+    <td>REST</td>
+    <td>50g</td>
+    <td>Breakfast: Whole-wheat toast with avocado; Lunch: Vegetarian chili with cornbread; Dinner: Black bean burgers on whole-wheat buns; Snack: Trail mix (nuts, seeds, dried fruit)</td>
+  </tr>
+  <tr>
+    <td>Thursday</td>
+    <td>7:00 AM</td>
+    <td>Resistance Band Workout</td>
+    <td>Band Rows: 10 reps, 3 sets; Band Bicep Curls: 12 reps, 3 sets; Band Tricep Extensions: 12 reps, 3 sets; Band Squats: 15 reps, 3 sets; Plank: 30 seconds, 3 sets</td>
+    <td>60g</td>
+    <td>Breakfast: Smoothie with spinach, banana, and protein powder; Lunch: Leftover Vegetable Curry; Dinner: Veggie pizza on whole-wheat crust; Snack: Cottage cheese</td>
+  </tr>
+  <tr>
+    <td>Friday</td>
+    <td>7:00 AM</td>
+    <td>Cardio</td>
+    <td>Brisk Walking: 30 minutes</td>
+    <td>50g</td>
+    <td>Breakfast: Oatmeal with berries and nuts; Lunch: Salad with grilled halloumi cheese (if suitable for the individual); Dinner: Lentil Shepherd's Pie; Snack: Rice cakes with hummus</td>
+  </tr>
+  <tr>
+    <td>Saturday</td>
+    <td>REST</td>
+    <td>REST</td>
+    <td>REST</td>
+    <td>50g</td>
+    <td>Breakfast: Pancakes with fruit and maple syrup; Lunch: Leftover Lentil Shepherd's Pie; Dinner: Pasta with marinara sauce and vegetables; Snack: Popcorn</td>
+  </tr>
+  <tr>
+    <td>Sunday</td>
+    <td>7:00 AM</td>
+    <td>Light Yoga/Stretching</td>
+    <td>30 minutes</td>
+    <td>50g</td>
+    <td>Breakfast: Scrambled Tofu with veggies; Lunch: Leftover pasta; Dinner: Tofu scramble with vegetables; Snack: Fruit salad</td>
+
+  </tr>
+</tbody></table>
+
+<!-- Repeat similar tables for Week 2 and Week 3, gradually increasing reps, sets, or duration.  Adjust the meal plan as needed to maintain variety and meet protein goals. -->
+
+
+
+```
+
+**Note:**  This is a sample plan.  It's crucial for the 56-year-old male to consult with a doctor or physical therapist before starting any new exercise program.  The meal plan is a suggestion and should be adjusted based on individual caloric needs and preferences.  The protein goals are estimates and can be adjusted based on individual needs.  Progressive overload (gradually increasing the intensity of workouts over time) is key to seeing results.  Weeks 2 and 3 would involve increasing reps, sets, or duration of exercises.  Consider adding other vegetarian protein sources like paneer or tempeh. Remember that consistency and a balanced diet are essential for weight loss.
+
+                        <div class="plan-actions">
+                            <button onclick="downloadPDF()" class="action-btn" fdprocessedid="kujhbj">
+                                <i class="fas fa-download" aria-hidden="true"></i> Download PDF
+                            </button>
+                            <button onclick="saveSchedule()" class="action-btn" fdprocessedid="jpkw0s">
+                                <i class="fas fa-save" aria-hidden="true"></i> Save Plan
+                            </button>
+                        </div>
+                    </div>
+                

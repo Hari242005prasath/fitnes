@@ -1,0 +1,202 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="schedule-dashboard">
+    <div class="schedule-container">
+        <div class="schedule-header">
+            <h1>Your Saved Fitness Plans</h1>
+            <p>Access and view your personalized workout plans</p>
+        </div>
+
+        <div class="plans-grid">
+            {% for gptinfo in gptinfos %}
+            <div class="plan-card">
+                <div class="plan-icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <div class="plan-details">
+                    <h3>Fitness Plan</h3>
+                    <p class="plan-date">Created on {{ gptinfo.created_at|date:"F d, Y" }}</p>
+                    <a href="{{ gptinfo.pdf_file.url }}" class="view-btn" target="_blank">
+                        <i class="fas fa-eye"></i> View Plan
+                    </a>
+                </div>
+            </div>
+            {% empty %}
+            <div class="no-plans">
+                <div class="no-plans-content">
+                    <i class="fas fa-clipboard-list"></i>
+                    <h2>No Plans Yet</h2>
+                    <p>You haven't created any fitness plans yet.</p>
+                    <a href="{% url 'newSchedule' %}" class="create-plan-btn">
+                        <i class="fas fa-plus"></i> Create New Plan
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+.schedule-dashboard {
+    padding: 40px 20px;
+    background: #f8f9fa;
+    min-height: calc(100vh - 80px);
+    font-family: 'Poppins', sans-serif;
+}
+
+.schedule-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.schedule-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.schedule-header h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.schedule-header p {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+.plans-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.plan-card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: transform 0.3s ease;
+}
+
+.plan-card:hover {
+    transform: translateY(-5px);
+}
+
+.plan-icon {
+    width: 60px;
+    height: 60px;
+    background: rgba(128, 0, 128, 0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.plan-icon i {
+    font-size: 24px;
+    color: purple;
+}
+
+.plan-details {
+    flex: 1;
+}
+
+.plan-details h3 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.plan-date {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+.view-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: purple;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background 0.3s ease;
+}
+
+.view-btn:hover {
+    background: #6a006a;
+}
+
+.no-plans {
+    grid-column: 1 / -1;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.no-plans-content {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.no-plans i {
+    font-size: 3rem;
+    color: purple;
+    margin-bottom: 20px;
+}
+
+.no-plans h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.no-plans p {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.create-plan-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: purple;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.create-plan-btn:hover {
+    background: #6a006a;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .schedule-header h1 {
+        font-size: 2rem;
+    }
+    
+    .plans-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+{% endblock %} 

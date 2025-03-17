@@ -1,71 +1,234 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Streak Tracker</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 20px;
-            background-color: #f4f4f4;
-        }
-        .streak {
-            background: green;
-            color: white;
-            padding: 20px;
-            margin: 20px auto;
-            width: 300px;
-            border-radius: 10px;
-        }
-        .streak button {
-            background: white;
-            color: green;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body>
-    <h1>Daily Streak Tracker</h1>
-    
-    <div class="streak">
-        <p>Awesome! Keep your streak going!</p>
-        <h2 id="streak-count">0</h2>
-        <p>DAY STREAK</p>
-        <button onclick="shareStreak()">SHARE MY STREAK!</button>
+{% extends 'myapp/base.html' %}
+{% load static %}
+
+{% block content %}
+<div style="min-height: 100vh; background: linear-gradient(135deg, #9400D3, #4B0082); padding: 20px;">
+    <div class="streak-container">
+        <h1 style="color: purple; text-align: center; margin-bottom: 30px;">Track Your Fitness Journey</h1>
+        
+        <div class="streak-stats">
+            <div class="stat-card">
+                <h3>Current Streak</h3>
+                <h2>{{ streak_count }} days</h2>
+            </div>
+            <div class="stat-card">
+                <h3>Weekly Workouts</h3>
+                <h2>{{ weekly_workouts }}</h2>
+            </div>
+        </div>
+
+        <div class="workout-form">
+            <h2>Log/Update Today's Workout</h2>
+            <form id="workoutForm">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="workout_type">Workout Type</label>
+                    <select id="workout_type" name="workout_type" required>
+                        <option value="">Select a workout type</option>
+                        <option value="Cardio">Cardio</option>
+                        <option value="Strength">Strength Training</option>
+                        <option value="Yoga">Yoga</option>
+                        <option value="HIIT">HIIT</option>
+                        <option value="Swimming">Swimming</option>
+                        <option value="Running">Running</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="duration">Duration (minutes)</label>
+                    <input type="number" id="duration" name="duration" required min="1">
+                </div>
+
+                <div class="form-group">
+                    <label for="calories">Calories Burned</label>
+                    <input type="number" id="calories" name="calories" required min="0">
+                </div>
+
+                <div class="form-group">
+                    <label for="notes">Notes (optional)</label>
+                    <textarea id="notes" name="notes"></textarea>
+                </div>
+
+                <button type="button" onclick="submitWorkout()" class="submit-btn">Log/Update Workout</button>
+            </form>
+        </div>
+
+        <div class="history">
+            <h2>Recent Workouts</h2>
+            {% if workouts %}
+                {% for workout in workouts %}
+                <div class="history-item">
+                    <h3>{{ workout.workout_type }}</h3>
+                    <p>Duration: {{ workout.duration }} minutes</p>
+                    <p>Date: {{ workout.date }}</p>
+                    {% if workout.notes %}
+                    <p>Notes: {{ workout.notes }}</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>No workouts logged yet. Start your fitness journey today!</p>
+            {% endif %}
+        </div>
     </div>
+</div>
 
-    <script>
-        function updateStreak() {
-            let lastLogin = localStorage.getItem("lastLogin");
-            let streak = parseInt(localStorage.getItem("streak")) || 0;
-            let now = new Date().getTime();
-            
-            if (lastLogin) {
-                let diff = now - parseInt(lastLogin);
-                if (diff < 86400000) { // Within 24 hours
-                    streak++;
-                } else {
-                    streak = 1; // Reset streak if more than 24 hours
-                }
+<style>
+    .streak-container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 30px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .streak-stats {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .stat-card {
+        background: linear-gradient(135deg, purple, #4B0082);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+    }
+
+    .workout-form {
+        background: #f5f5f5;
+        padding: 25px;
+        border-radius: 10px;
+        margin-top: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    .form-group textarea {
+        resize: vertical;
+    }
+
+    .submit-btn {
+        background: purple;
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        width: 100%;
+        transition: background 0.3s;
+    }
+
+    .submit-btn:hover {
+        background: #4B0082;
+    }
+
+    .history {
+        margin-top: 30px;
+    }
+
+    .history-item {
+        background: #f9f9f9;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        border-left: 4px solid purple;
+    }
+
+    @media (max-width: 768px) {
+        .streak-container {
+            margin: 10px;
+            padding: 15px;
+        }
+        
+        .streak-stats {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .alert-info {
+        background-color: #e8e8ff;
+        border-left: 4px solid purple;
+        padding: 15px;
+        margin-top: 10px;
+        border-radius: 5px;
+    }
+</style>
+
+<script>
+    function submitWorkout() {
+        const formData = {
+            workout_type: document.getElementById('workout_type').value,
+            duration: document.getElementById('duration').value,
+            calories: document.getElementById('calories').value,
+            notes: document.getElementById('notes').value
+        };
+
+        fetch('/log_workout/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Workout logged/updated successfully!');
+                location.reload();
             } else {
-                streak = 1;
+                alert(data.error || 'Error logging workout');
             }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error logging workout');
+        });
+    }
 
-            localStorage.setItem("streak", streak);
-            localStorage.setItem("lastLogin", now);
-            document.getElementById("streak-count").innerText = streak;
-        }
+    // Add a countdown timer until midnight
+    function updateCountdown() {
+        if (!document.querySelector('.alert-info')) return;
+        
+        const now = new Date();
+        const midnight = new Date();
+        midnight.setHours(24, 0, 0, 0);
+        
+        const diff = midnight - now;
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        
+        const countdownElement = document.querySelector('.alert-info p');
+        countdownElement.textContent = `Next workout available in: ${hours}h ${minutes}m`;
+    }
 
-        function shareStreak() {
-            alert("You have a " + localStorage.getItem("streak") + "-day streak! Keep it up!");
-        }
-
-        updateStreak();
-    </script>
-</body>
-</html>
+    if (!{{ can_log_today|yesno:"true,false" }}) {
+        setInterval(updateCountdown, 60000); // Update every minute
+        updateCountdown(); // Initial update
+    }
+</script>
+{% endblock %}
