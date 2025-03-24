@@ -39,4 +39,5 @@ urlpatterns = [
     path('streak', views.streak),
     path('analytics', views.analytics),
     path('log_workout/', views.log_workout, name='log_workout'),
+    path('chatbot_response/', views.chatbot_response, name='chatbot_response'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

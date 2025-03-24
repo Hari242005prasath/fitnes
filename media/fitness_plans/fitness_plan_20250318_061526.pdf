@@ -1,0 +1,226 @@
+
+                    <div class="plan-result">
+                        ```html
+
+
+
+<title>3-Week Fitness Plan</title>
+<style>
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+</style>
+
+
+
+<h2>3-Week Fitness Plan for 80-Year-Old Male (Beginner)</h2>
+
+<p><strong>Important Note:</strong> This plan is a suggestion only.  Consult your doctor or a physical therapist before starting any new exercise program.  Adjust intensity and duration based on your individual capabilities.  Focus on proper form to avoid injury.</p>
+
+<table>
+  <tbody><tr>
+    <th>Day</th>
+    <th>Time</th>
+    <th>Exercise Type</th>
+    <th>Workout Details (Reps, Sets, Duration)</th>
+    <th>Protein Goal (g)</th>
+    <th>Meal Plan</th>
+  </tr>
+  <tr>
+    <td>Week 1, Day 1 (Monday)</td>
+    <td>9:00 AM</td>
+    <td>Chair Yoga</td>
+    <td>30 minutes</td>
+    <td>40g</td>
+    <td>Breakfast: Oatmeal with berries and nuts, Lunch: Lentil soup with whole-wheat bread, Dinner: Tofu scramble with vegetables, Snack: Greek yogurt</td>
+  </tr>
+  <tr>
+    <td>Week 1, Day 2 (Tuesday)</td>
+    <td>9:00 AM</td>
+    <td>Walking</td>
+    <td>15 minutes (slow pace)</td>
+    <td>40g</td>
+    <td>Breakfast: Whole-wheat toast with avocado, Lunch: Vegetable stir-fry with quinoa, Dinner:  Black bean burgers on whole-wheat buns, Snack: Almonds</td>
+  </tr>
+  <tr>
+    <td>Week 1, Day 3 (Wednesday)</td>
+    <td>REST</td>
+    <td>-</td>
+    <td>-</td>
+    <td>40g</td>
+    <td>Breakfast: Scrambled eggs with spinach and whole-wheat toast, Lunch: Chickpea salad sandwich on whole-wheat bread, Dinner: Vegetable curry with brown rice, Snack: Apple slices with peanut butter</td>
+
+  </tr>
+  <tr>
+    <td>Week 1, Day 4 (Thursday)</td>
+    <td>9:00 AM</td>
+    <td>Chair Yoga</td>
+    <td>30 minutes</td>
+    <td>40g</td>
+    <td>Breakfast: Oatmeal with berries and nuts, Lunch: Lentil soup with whole-wheat bread, Dinner: Tofu scramble with vegetables, Snack: Greek yogurt</td>
+  </tr>
+  <tr>
+    <td>Week 1, Day 5 (Friday)</td>
+    <td>9:00 AM</td>
+    <td>Walking</td>
+    <td>15 minutes (slow pace)</td>
+    <td>40g</td>
+    <td>Breakfast: Whole-wheat toast with avocado, Lunch: Vegetable stir-fry with quinoa, Dinner:  Black bean burgers on whole-wheat buns, Snack: Almonds</td>
+  </tr>
+  <tr>
+    <td>Week 1, Day 6 (Saturday)</td>
+    <td>REST</td>
+    <td>-</td>
+    <td>-</td>
+    <td>40g</td>
+    <td>Breakfast: Scrambled eggs with spinach and whole-wheat toast, Lunch: Chickpea salad sandwich on whole-wheat bread, Dinner: Vegetable curry with brown rice, Snack: Apple slices with peanut butter</td>
+  </tr>
+  <tr>
+    <td>Week 1, Day 7 (Sunday)</td>
+    <td>REST</td>
+    <td>-</td>
+    <td>-</td>
+    <td>40g</td>
+    <td>Breakfast: Pancakes with fruit, Lunch: Veggie burger on whole-wheat bun, Dinner: Lentil stew, Snack: Cottage cheese</td>
+  </tr>
+
+
+  <tr>
+    <td>Week 2, Day 1 (Monday)</td>
+    <td>9:00 AM</td>
+    <td>Chair Yoga</td>
+    <td>30 minutes</td>
+    <td>40g</td>
+    <td>Breakfast: Oatmeal with berries and nuts, Lunch: Lentil soup with whole-wheat bread, Dinner: Tofu scramble with vegetables, Snack: Greek yogurt</td>
+  </tr>
+  <tr>
+    <td>Week 2, Day 2 (Tuesday)</td>
+    <td>9:00 AM</td>
+    <td>Walking</td>
+    <td>17 minutes (slow pace)</td>
+    <td>40g</td>
+    <td>Breakfast: Whole-wheat toast with avocado, Lunch: Vegetable stir-fry with quinoa, Dinner:  Black bean burgers on whole-wheat buns, Snack: Almonds</td>
+  </tr>
+  <tr>
+    <td>Week 2, Day 3 (Wednesday)</td>
+    <td>REST</td>
+    <td>-</td>
+    <td>-</td>
+    <td>40g</td>
+    <td>Breakfast: Scrambled eggs with spinach and whole-wheat toast, Lunch: Chickpea salad sandwich on whole-wheat bread, Dinner: Vegetable curry with brown rice, Snack: Apple slices with peanut butter</td>
+  </tr>
+  <tr>
+    <td>Week 2, Day 4 (Thursday)</td>
+    <td>9:00 AM</td>
+    <td>Chair Yoga</td>
+    <td>30 minutes</td>
+    <td>40g</td>
+    <td>Breakfast: Oatmeal with berries and nuts, Lunch: Lentil soup with whole-wheat bread, Dinner: Tofu scramble with vegetables, Snack: Greek yogurt</td>
+  </tr>
+  <tr>
+    <td>Week 2, Day 5 (Friday)</td>
+    <td>9:00 AM</td>
+    <td>Walking</td>
+    <td>17 minutes (slow pace)</td>
+    <td>40g</td>
+    <td>Breakfast: Whole-wheat toast with avocado, Lunch: Vegetable stir-fry with quinoa, Dinner:  Black bean burgers on whole-wheat buns, Snack: Almonds</td>
+  </tr>
+  <tr>
+    <td>Week 2, Day 6 (Saturday)</td>
+    <td>REST</td>
+    <td>-</td>
+    <td>-</td>
+    <td>40g</td>
+    <td>Breakfast: Scrambled eggs with spinach and whole-wheat toast, Lunch: Chickpea salad sandwich on whole-wheat bread, Dinner: Vegetable curry with brown rice, Snack: Apple slices with peanut butter</td>
+  </tr>
+  <tr>
+    <td>Week 2, Day 7 (Sunday)</td>
+    <td>REST</td>
+    <td>-</td>
+    <td>-</td>
+    <td>40g</td>
+    <td>Breakfast: Pancakes with fruit, Lunch: Veggie burger on whole-wheat bun, Dinner: Lentil stew, Snack: Cottage cheese</td>
+  </tr>
+
+  <tr>
+    <td>Week 3, Day 1 (Monday)</td>
+    <td>9:00 AM</td>
+    <td>Chair Yoga</td>
+    <td>30 minutes</td>
+    <td>40g</td>
+    <td>Breakfast: Oatmeal with berries and nuts, Lunch: Lentil soup with whole-wheat bread, Dinner: Tofu scramble with vegetables, Snack: Greek yogurt</td>
+  </tr>
+  <tr>
+    <td>Week 3, Day 2 (Tuesday)</td>
+    <td>9:00 AM</td>
+    <td>Walking</td>
+    <td>20 minutes (slow pace)</td>
+    <td>40g</td>
+    <td>Breakfast: Whole-wheat toast with avocado, Lunch: Vegetable stir-fry with quinoa, Dinner:  Black bean burgers on whole-wheat buns, Snack: Almonds</td>
+  </tr>
+  <tr>
+    <td>Week 3, Day 3 (Wednesday)</td>
+    <td>REST</td>
+    <td>-</td>
+    <td>-</td>
+    <td>40g</td>
+    <td>Breakfast: Scrambled eggs with spinach and whole-wheat toast, Lunch: Chickpea salad sandwich on whole-wheat bread, Dinner: Vegetable curry with brown rice, Snack: Apple slices with peanut butter</td>
+  </tr>
+  <tr>
+    <td>Week 3, Day 4 (Thursday)</td>
+    <td>9:00 AM</td>
+    <td>Chair Yoga</td>
+    <td>30 minutes</td>
+    <td>40g</td>
+    <td>Breakfast: Oatmeal with berries and nuts, Lunch: Lentil soup with whole-wheat bread, Dinner: Tofu scramble with vegetables, Snack: Greek yogurt</td>
+  </tr>
+  <tr>
+    <td>Week 3, Day 5 (Friday)</td>
+    <td>9:00 AM</td>
+    <td>Walking</td>
+    <td>20 minutes (slow pace)</td>
+    <td>40g</td>
+    <td>Breakfast: Whole-wheat toast with avocado, Lunch: Vegetable stir-fry with quinoa, Dinner:  Black bean burgers on whole-wheat buns, Snack: Almonds</td>
+  </tr>
+  <tr>
+    <td>Week 3, Day 6 (Saturday)</td>
+    <td>REST</td>
+    <td>-</td>
+    <td>-</td>
+    <td>40g</td>
+    <td>Breakfast: Scrambled eggs with spinach and whole-wheat toast, Lunch: Chickpea salad sandwich on whole-wheat bread, Dinner: Vegetable curry with brown rice, Snack: Apple slices with peanut butter</td>
+  </tr>
+  <tr>
+    <td>Week 3, Day 7 (Sunday)</td>
+    <td>REST</td>
+    <td>-</td>
+    <td>-</td>
+    <td>40g</td>
+    <td>Breakfast: Pancakes with fruit, Lunch: Veggie burger on whole-wheat bun, Dinner: Lentil stew, Snack: Cottage cheese</td>
+  </tr>
+</tbody></table>
+
+
+
+```
+                        <div class="plan-actions">
+                            <button onclick="downloadPDF()" class="action-btn" fdprocessedid="r6ulea">
+                                <i class="fas fa-download" aria-hidden="true"></i> Download PDF
+                            </button>
+                            <button onclick="saveSchedule()" class="action-btn" fdprocessedid="gxbzku">
+                                <i class="fas fa-save" aria-hidden="true"></i> Save Plan
+                            </button>
+                        </div>
+                    </div>
+                

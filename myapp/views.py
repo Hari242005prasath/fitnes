@@ -14,29 +14,86 @@ def generate_fitness_plan(request):
         try:
             data = json.loads(request.body)
 
-            duration = data.get("duration", "4 weeks")
-            goal = data.get("goal", "General Fitness")
-            fitness_level = data.get("fitness_level", "Beginner")
-            age = data.get("age", 25)
-            gender = data.get("gender", "Male")
-            weight = data.get("weight", 70)
-            height = data.get("height", 170)
-            activity_level = data.get("activity_level", "Moderately Active")
-            diet_preference = data.get("diet_preference", "None")
+            # Validation rules
+            validations = {
+                "age": {
+                    "min": 1,
+                    "max": 80,
+                    "error": "Age must be between 1 and 80 years."
+                },
+                "weight": {
+                    "min": 20,  # Minimum healthy weight
+                    "max": 200,
+                    "error": "Weight must be between 20 and 200 kg."
+                },
+                "height": {
+                    "min": 100,  # Minimum height in cm
+                    "max": 250,
+                    "error": "Height must be between 100 and 250 cm."
+                }
+            }
+
+            # Validate numeric fields
+            for field, rules in validations.items():
+                value = float(data.get(field, 0))
+                if value < rules["min"] or value > rules["max"]:
+                    return JsonResponse({"error": rules["error"]}, status=400)
+
+            # Validate duration
+            duration = data.get("duration", "")
+            try:
+                duration_number = int(''.join(filter(str.isdigit, duration)))
+                if duration_number <= 0 or duration_number > 12:
+                    return JsonResponse({
+                        "error": "Duration must be between 1 and 12 weeks."
+                    }, status=400)
+            except:
+                return JsonResponse({
+                    "error": "Invalid duration format."
+                }, status=400)
+
+            # Validate required fields with specific allowed values
+            field_validations = {
+                "goal": ["Weight Loss", "Muscle Gain", "General Fitness", "Endurance"],
+                "fitness_level": ["Beginner", "Intermediate", "Advanced"],
+                "gender": ["Male", "Female", "Other"],
+                "activity_level": ["Sedentary", "Lightly Active", "Moderately Active", "Very Active"],
+                "diet_preference": ["None", "Vegetarian", "Vegan", "Keto", "Paleo"]
+            }
+
+            for field, allowed_values in field_validations.items():
+                value = data.get(field)
+                if not value or value not in allowed_values:
+                    return JsonResponse({
+                        "error": f"Invalid {field.replace('_', ' ')}. Must be one of: {', '.join(allowed_values)}"
+                    }, status=400)
+
+            # Validate equipment (if provided)
+            valid_equipment = ["Dumbbells", "Resistance Bands", "Yoga Mat", "Pull-up Bar", "None"]
             equipment = data.get("equipment", [])
+            if not isinstance(equipment, list):
+                return JsonResponse({
+                    "error": "Equipment must be a list."
+                }, status=400)
+            for item in equipment:
+                if item not in valid_equipment:
+                    return JsonResponse({
+                        "error": f"Invalid equipment: {item}. Valid options are: {', '.join(valid_equipment)}"
+                    }, status=400)
 
+            # If all validations pass, create the prompt
             prompt = (
-                f"Create a {duration} fitness plan for a {age}-year-old {gender} with a weight of {weight} kg and height of {height} cm. "
-                f"The fitness level is {fitness_level}, and their primary goal is {goal}. They follow a {diet_preference} diet and have an "
-                f"activity level of {activity_level}. Provide a structured day-by-day plan in **valid HTML table format**, "
-                f"with proper `<table>`, `<tr>`, and `<td>` tags for alignment."
-
-                f"The table should have these columns: *Day, Time, Exercise Type, Workout Details (Reps, Sets, Duration), Protein Goal (g), Meal Plan (Breakfast, Lunch, Dinner, Snacks)*. "
-                f"Ensure that the meal plan aligns with their {diet_preference} diet and supports their goal (muscle gain, weight loss, endurance, etc.). "
-
-                f"Include rest days where appropriate, and ensure exercises use the provided equipment: {', '.join(equipment) if equipment else 'None'}. "
-                f"The {age} should not exceed above 80.If it exceeds do not generate the plan. "
-                f"The {duration} must be above 0 else return not possible"
+                f"Create a {duration} fitness plan for a {data['age']}-year-old {data['gender']} "
+                f"with a weight of {data['weight']} kg and height of {data['height']} cm. "
+                f"The fitness level is {data['fitness_level']}, and their primary goal is {data['goal']}. "
+                f"They follow a {data['diet_preference']} diet and have an activity level of {data['activity_level']}. "
+                f"Provide a structured day-by-day plan in **valid HTML table format**, "
+                f"with proper `<table>`, `<tr>`, and `<td>` tags for alignment. "
+                f"The table should have these columns: *Day, Time, Exercise Type, Workout Details (Reps, Sets, Duration), "
+                f"Protein Goal (g), Meal Plan (Breakfast, Lunch, Dinner, Snacks)*. "
+                f"Ensure that the meal plan aligns with their {data['diet_preference']} diet "
+                f"and supports their goal. Include rest days where appropriate, and ensure exercises "
+                f"use the provided equipment: {', '.join(equipment) if equipment else 'None'}."
             )
 
             model = genai.GenerativeModel('gemini-1.5-flash')
@@ -45,6 +102,10 @@ def generate_fitness_plan(request):
 
             return JsonResponse({"fitness_plan": response.text}, status=200)
 
+        except ValueError as e:
+            return JsonResponse({
+                "error": "Invalid input: Please check your numeric values."
+            }, status=400)
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=500)
 
@@ -313,7 +374,58 @@ def save_fitness_plan(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
-            fitness_plan = data.get('fitness_plan', '')
+            fitness_plan_html = data.get('fitness_plan', '')
+            
+            # Create PDF
+            buffer = io.BytesIO()
+            doc = SimpleDocTemplate(
+                buffer,
+                pagesize=A4,
+                rightMargin=72,
+                leftMargin=72,
+                topMargin=72,
+                bottomMargin=72
+            )
+            
+            elements = []
+            styles = getSampleStyleSheet()
+            
+            # Add title
+            elements.append(Paragraph("Your Fitness Plan", styles['Heading1']))
+            elements.append(Spacer(1, 20))
+            
+            # Parse HTML and add content
+            soup = BeautifulSoup(fitness_plan_html, 'html.parser')
+            table = soup.find('table')
+            if table:
+                table_data = []
+                for row in table.find_all('tr'):
+                    cols = row.find_all(['th', 'td'])
+                    row_data = [Paragraph(col.get_text(strip=True), styles['Normal']) for col in cols]
+                    table_data.append(row_data)
+                
+                if table_data:
+                    pdf_table = Table(table_data, repeatRows=1)
+                    pdf_table.setStyle(TableStyle([
+                        ('BACKGROUND', (0, 0), (-1, 0), colors.purple),
+                        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                        ('FONTSIZE', (0, 0), (-1, 0), 12),
+                        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                        ('BACKGROUND', (0, 1), (-1, -1), colors.white),
+                        ('TEXTCOLOR', (0, 1), (-1, -1), colors.black),
+                        ('FONTNAME', (0, 1), (-1, -1), 'Helvetica'),
+                        ('FONTSIZE', (0, 1), (-1, -1), 10),
+                        ('GRID', (0, 0), (-1, -1), 1, colors.black),
+                        ('PADDING', (0, 0), (-1, -1), 6),
+                    ]))
+                    elements.append(pdf_table)
+            
+            # Build PDF
+            doc.build(elements)
+            pdf_content = buffer.getvalue()
+            buffer.close()
             
             # Generate filename with timestamp
             timestamp = timezone.now().strftime('%Y%m%d_%H%M%S')
@@ -321,12 +433,13 @@ def save_fitness_plan(request):
             
             # Save to Gptinfo model
             gptinfo = Gptinfo()
-            gptinfo.pdf_file.save(filename, ContentFile(fitness_plan.encode()))
+            gptinfo.pdf_file.save(filename, ContentFile(pdf_content))
             gptinfo.save()
             
             return JsonResponse({
                 'success': True,
-                'message': 'Plan saved successfully!'
+                'message': 'Plan saved successfully!',
+                'pdf_url': gptinfo.pdf_file.url
             })
             
         except Exception as e:
@@ -440,3 +553,44 @@ def log_workout(request):
                 'error': str(e)
             }, status=500)
     return JsonResponse({'success': False, 'error': 'Invalid request'}, status=400)
+
+@csrf_exempt
+def chatbot_response(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            user_message = data.get("message", "")
+
+            # Add constraints to the prompt
+            prompt = (
+                "You are a fitness assistant chatbot. Provide a concise response "
+                "using ONLY 10-15 words maximum. Keep it simple, direct, and helpful. "
+                "Focus on fitness, workouts, nutrition, and healthy lifestyle. "
+                f"User question: {user_message}"
+                "\nRemember: Response must be 10-15 words only, in a complete meaningful sentence."
+            )
+
+            # Generate response using Gemini
+            model = genai.GenerativeModel('gemini-1.5-flash')
+            chat = model.start_chat(history=[])
+            response = chat.send_message(prompt)
+            
+            # Get the response text
+            response_text = response.text
+            
+            # Split into words and limit
+            words = response_text.split()
+            if len(words) > 15:
+                words = words[:15]
+                response_text = ' '.join(words) + '.'
+            
+            return JsonResponse({
+                "response": response_text
+            })
+
+        except Exception as e:
+            return JsonResponse({
+                "error": "Sorry, I can help with a shorter answer."
+            }, status=500)
+
+    return JsonResponse({"error": "Invalid request"}, status=400)

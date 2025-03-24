@@ -247,6 +247,402 @@
   <script>
     AOS.init();
   </script>
+
+  <script>
+  function toggleChat() {
+      const chatBox = document.getElementById('chatBox');
+      const chatToggle = document.getElementById('chatToggle');
+      chatBox.style.display = chatBox.style.display === 'none' ? 'flex' : 'none';
+      if (chatBox.style.display === 'flex') {
+          chatToggle.classList.add('bounce');
+      }
+  }
+
+  async function sendMessage() {
+      const input = document.getElementById('userInput');
+      const message = input.value.trim();
+      
+      if (!message) return;
+      
+      const chatMessages = document.getElementById('chatMessages');
+      
+      // Add user message
+      chatMessages.innerHTML += `
+          <div class="message user">
+              ${message}
+          </div>
+      `;
+      
+      // Clear input
+      input.value = '';
+      
+      // Add loading indicator
+      const loadingId = 'loading-' + Date.now();
+      chatMessages.innerHTML += `
+          <div class="message bot" id="${loadingId}">
+              <div class="typing-indicator">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+              </div>
+          </div>
+      `;
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      try {
+          // Get AI response
+          const response = await fetch('/chatbot_response/', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+              },
+              body: JSON.stringify({ message: message })
+          });
+
+          const data = await response.json();
+          
+          // Remove loading indicator
+          document.getElementById(loadingId).remove();
+
+          if (data.error) {
+              throw new Error(data.error);
+          }
+
+          // Add bot response
+          chatMessages.innerHTML += `
+              <div class="message bot">
+                  ${data.response}
+              </div>
+          `;
+      } catch (error) {
+          // Remove loading indicator
+          document.getElementById(loadingId).remove();
+          
+          // Show error message
+          chatMessages.innerHTML += `
+              <div class="message bot error">
+                  Sorry, I encountered an error. Please try again later.
+              </div>
+          `;
+          console.error('Error:', error);
+      }
+      
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  // Allow Enter key to send message
+  document.getElementById('userInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+          sendMessage();
+      }
+  });
+  </script>
+
+  <style>
+  /* Add these new styles */
+  .typing-indicator {
+      display: flex;
+      gap: 5px;
+  }
+
+  .typing-indicator span {
+      width: 8px;
+      height: 8px;
+      background: purple;
+      border-radius: 50%;
+      animation: typing 1s infinite ease-in-out;
+  }
+
+  .typing-indicator span:nth-child(2) {
+      animation-delay: 0.2s;
+  }
+
+  .typing-indicator span:nth-child(3) {
+      animation-delay: 0.4s;
+  }
+
+  @keyframes typing {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+  }
+
+  .message.error {
+      background: #ffebee;
+      color: #c62828;
+  }
+
+  /* Previous styles remain the same */
+  </style>
+
+  <div class="chat-bot-container">
+    <div class="chat-box" id="chatBox" style="display: none;">
+        <div class="chat-header">
+            <div class="chat-logo">💪</div>
+            <span>Fitnezz Assistant</span>
+            <button onclick="toggleChat()" class="close-btn">&times;</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot">
+                Hello! 👋 I'm your Fitnezz assistant. How can I help you with your fitness journey today?
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="userInput" placeholder="Ask about fitness, workouts, or diet...">
+            <button onclick="sendMessage()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+            </button>
+        </div>
+    </div>
+    <button class="chat-bot-toggle" onclick="toggleChat()" id="chatToggle">
+        <div class="toggle-icon">💪</div>
+    </button>
+  </div>
+
+  <style>
+  .chat-bot-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 9999;
+  }
+
+  .chat-bot-toggle {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #9400D3, #4B0082);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: transform 0.3s;
+  }
+
+  .toggle-icon {
+      font-size: 30px;
+  }
+
+  .chat-bot-toggle:hover {
+      transform: scale(1.1);
+  }
+
+  .chat-box {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      width: 350px;
+      height: 500px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+  }
+
+  .chat-header {
+      background: linear-gradient(135deg, #9400D3, #4B0082);
+      color: white;
+      padding: 15px;
+      border-radius: 15px 15px 0 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+  }
+
+  .chat-logo {
+      font-size: 24px;
+  }
+
+  .close-btn {
+      margin-left: auto;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+  }
+
+  .chat-messages {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      background: #f8f9fa;
+  }
+
+  .message {
+      margin-bottom: 10px;
+      padding: 10px 15px;
+      border-radius: 15px;
+      max-width: 80%;
+      animation: fadeIn 0.3s ease-in;
+  }
+
+  .message.bot {
+      background: white;
+      margin-right: auto;
+      border-bottom-left-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+
+  .message.user {
+      background: #9400D3;
+      color: white;
+      margin-left: auto;
+      border-bottom-right-radius: 5px;
+  }
+
+  .chat-input {
+      padding: 15px;
+      border-top: 1px solid #eee;
+      display: flex;
+      gap: 10px;
+      background: white;
+      border-radius: 0 0 15px 15px;
+  }
+
+  .chat-input input {
+      flex: 1;
+      padding: 10px 15px;
+      border: 1px solid #ddd;
+      border-radius: 20px;
+      outline: none;
+      font-size: 14px;
+  }
+
+  .chat-input button {
+      background: #9400D3;
+      color: white;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s;
+  }
+
+  .chat-input button:hover {
+      background: #4B0082;
+  }
+
+  .typing-indicator {
+      display: flex;
+      gap: 5px;
+      padding: 10px 15px;
+  }
+
+  .typing-indicator span {
+      width: 8px;
+      height: 8px;
+      background: #9400D3;
+      border-radius: 50%;
+      animation: typing 1s infinite ease-in-out;
+  }
+
+  .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+  .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes typing {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+  }
+
+  @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+  }
+  </style>
+
+  <script>
+  function toggleChat() {
+      const chatBox = document.getElementById('chatBox');
+      const chatToggle = document.getElementById('chatToggle');
+      chatBox.style.display = chatBox.style.display === 'none' ? 'flex' : 'none';
+  }
+
+  async function sendMessage() {
+      const input = document.getElementById('userInput');
+      const message = input.value.trim();
+      
+      if (!message) return;
+      
+      const chatMessages = document.getElementById('chatMessages');
+      
+      // Add user message
+      chatMessages.innerHTML += `
+          <div class="message user">
+              ${message}
+          </div>
+      `;
+      
+      // Clear input
+      input.value = '';
+      
+      // Add loading indicator
+      const loadingId = 'loading-' + Date.now();
+      chatMessages.innerHTML += `
+          <div class="message bot" id="${loadingId}">
+              <div class="typing-indicator">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+              </div>
+          </div>
+      `;
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      try {
+          // Get AI response
+          const response = await fetch('/chatbot_response/', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'X-CSRFToken': '{{ csrf_token }}'
+              },
+              body: JSON.stringify({ message: message })
+          });
+
+          const data = await response.json();
+          
+          // Remove loading indicator
+          document.getElementById(loadingId).remove();
+
+          // Add bot response
+          chatMessages.innerHTML += `
+              <div class="message bot">
+                  ${data.response || data.error || 'Sorry, I encountered an error. Please try again.'}
+              </div>
+          `;
+      } catch (error) {
+          // Remove loading indicator
+          document.getElementById(loadingId).remove();
+          
+          // Show error message
+          chatMessages.innerHTML += `
+              <div class="message bot">
+                  Sorry, I encountered an error. Please try again later.
+              </div>
+          `;
+      }
+      
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  // Allow Enter key to send message
+  document.getElementById('userInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+          sendMessage();
+      }
+  });
+  </script>
 </body>
 
 </html>
